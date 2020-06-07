@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Maximum_Allowance_Rate__c</fullName>
+    <description>Maximum allowance rate allowed on this line item.</description>
+    <externalId>false</externalId>
+    <formula>Trade_Marketing_Agreement__r.Trade_Marketing_Agreement_Promotion__r.Maximum_Allowance_Rate__c</formula>
+    <label>Maximum Allowance Rate</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

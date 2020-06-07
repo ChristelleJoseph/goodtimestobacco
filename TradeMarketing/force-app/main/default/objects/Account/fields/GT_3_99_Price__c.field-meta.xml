@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GT_3_99_Price__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>List the selling price to retail of this brand family.</inlineHelpText>
+    <label>GT 3/99 PCH DD Price</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Currency</type>
+</CustomField>
