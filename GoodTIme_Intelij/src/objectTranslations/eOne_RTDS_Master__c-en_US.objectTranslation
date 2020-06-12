@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>eOne Realtime Data Source Master</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Source Entities</value>
+    </caseValues>
+    <fields>
+        <label><!-- Is Create --></label>
+        <name>IsCreate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Delete --></label>
+        <name>IsDelete__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Update --></label>
+        <name>IsUpdate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Data Source Query --></label>
+        <name>Query__c</name>
+    </fields>
+    <fields>
+        <label><!-- Data Source Id --></label>
+        <name>SourceId__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

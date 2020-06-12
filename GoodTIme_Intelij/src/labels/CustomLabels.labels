@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Email_id_template_for_log_a_call</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email id template for log a call</shortDescription>
+        <value>00Xf4000000V6pK</value>
+    </labels>
+    <labels>
+        <fullName>Task_subject_for_log_a_call</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task subject for log a call</shortDescription>
+        <value>Sales Meeting</value>
+    </labels>
+</CustomLabels>

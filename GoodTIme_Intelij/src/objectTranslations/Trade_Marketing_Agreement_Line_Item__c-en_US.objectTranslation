@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Trade Marketing Agreement Line Item</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Trade Marketing Agreement Line Items</value>
+    </caseValues>
+    <fields>
+        <label><!-- Allowance Rate --></label>
+        <name>Allowance_Rate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Maximum Allowance Rate --></label>
+        <name>Maximum_Allowance_Rate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Trade Marketing Agreement --></label>
+        <name>Trade_Marketing_Agreement__c</name>
+        <relationshipLabel><!-- Trade Marketing Agreement Line Items --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

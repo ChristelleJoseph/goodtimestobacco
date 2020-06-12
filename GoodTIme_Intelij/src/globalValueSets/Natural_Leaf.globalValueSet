@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName># HD</fullName>
+        <default>false</default>
+        <label># HD</label>
+    </customValue>
+    <customValue>
+        <fullName>Sweet Woods</fullName>
+        <default>false</default>
+        <label>Sweet Woods</label>
+    </customValue>
+    <masterLabel>Natural Leaf</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

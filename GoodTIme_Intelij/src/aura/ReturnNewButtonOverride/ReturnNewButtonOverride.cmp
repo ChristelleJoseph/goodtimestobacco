@@ -1,0 +1,3 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride" access="global" >
+	<ui:outputText value="Returns cannot be created through the new button, please navigate to the account you are creating the return for and click the 'Initiate Return' button on the account dropdown list." />
+</aura:component>

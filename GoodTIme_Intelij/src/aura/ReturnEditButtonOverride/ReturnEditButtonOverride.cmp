@@ -1,0 +1,5 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.redirectToReturnForm}"/>
+    
+    <ui:button label="Redirect to return form." press="{!c.redirectToReturnForm}" />
+</aura:component>

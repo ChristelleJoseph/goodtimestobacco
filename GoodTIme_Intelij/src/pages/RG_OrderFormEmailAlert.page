@@ -1,0 +1,25 @@
+<apex:page standardController="Order" extensions="RG_RequestFormEmailAlertCls" >
+        <script type="text/javascript">
+            window.addEventListener("load", verifyOrderStatus);
+            
+            function verifyOrderStatus() {
+                
+                if("{!ord1.status}" == "Activated"){
+                    alert("ERROR: Order has already been submitted for processing. To resubmit order, change the status to \"Draft\" and select the \"Send Email\" button again. Please email Joseph W. Lteif at Joseph@goodtimestobacco.com to inform him of this change, so that the order is not processed twice.")
+                }else{
+                    alert("Order has been submitted. Please note that the status of the order may take 30-60 seconds to update.");
+                }
+
+                verifyOrderStatus();
+                
+                return null;
+            }
+
+            
+        </script> 
+        <apex:form >
+                <apex:actionFunction name="verifyOrderStatus" action="{!autosendOrder}" >
+                </apex:actionFunction>
+        </apex:form>
+
+</apex:page>

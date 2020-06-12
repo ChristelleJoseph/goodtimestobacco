@@ -1,0 +1,242 @@
+<apex:page standardController="Account" extensions="GT_PriceTrackingClass" action="{!getRetailPriceArchives}" showHeader="true" sideBar="false" lightningStylesheets="true">
+    <style>
+        .quantity{
+            border-left-width: 1px;
+            border-color: #54698d;
+            border-style: solid;
+            border-right-width: 0px;
+            border-bottom-width: 0px;
+            border-top-width: 0px;
+
+        }
+
+        .slds-button_neutral {
+            height: 30px !important;
+            margin-left: 10px !important;
+        }
+
+        html{
+            background: #f8f8f8;
+        }
+
+        body{
+            background: transparent !important;
+            font-size:small;
+        }
+
+        #ControlOutter{
+    
+            position: relative;
+            width: 94vw;
+            margin: 3vw;
+            background: #ffffff;
+        }
+        
+        .btnSearch{
+            margin-top: 10px;
+        }
+
+        .searchResultsTable{
+           
+        }
+
+        .requestItemCheckBox {
+            height:25px !important;
+            width: 25px !important;
+            margin-left: 30%;
+            
+        }
+        .requestItemCheckBox:checked{
+            background-color: green !important;
+        }
+
+        .matchRequestButton{
+            margin-top:20px !important;
+        }
+
+        .bPageBlock {
+            border-top: 4px solid #d6daf7;
+        }
+
+        .input{
+            margin-left: 5px !important;
+            vertical-align: middle !important;
+        }
+
+        #divDebugPanel{
+            
+        }
+        .brandList{
+            
+        }
+        .pageDescription{
+            line-height: normal !important;
+        }
+    </style>
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}"/>
+    <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <apex:form >
+        <apex:sectionHeader title="" subtitle="Price Tracking"/>
+        <div class="ptBreadcrumb" style="padding-bottom: 25px;">&nbsp;«&nbsp;<a href="/{!accountId}">Back to Account</a></div>
+        <apex:pageMessages id="errors" />
+        
+        <apex:actionFunction name="addLI" action="{!addBrand}" rerender="select_list, modal-content-id-1, errors, results,debug,errors">
+                <apex:param name="selectedItems" assignTo="{!selectedList}" value="" />
+        </apex:actionFunction>
+        
+
+        <apex:commandButton styleClass="slds-button_neutral" value="Sync Brands from Account" action="{!getInventoryBrands}"/>
+        <apex:commandButton styleClass="slds-button_neutral" value="Save Changes" action="{!saveChanges}"/>
+        <apex:commandButton styleClass="slds-button_neutral" value="Add Brands" onclick="addBrand(); return false;"/>
+        <div style="    display: inline; font-size: x-small;    margin: 2%;"> *Note that any brand without a price or with a price of 0.00 will not be saved.</div>
+
+        <apex:outputPanel layout="block" styleClass="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+            <div class="slds-scrollable--y" style="overflow-y:scroll; height:100%;     min-height: 100px;" >
+                <table class="slds-table slds-table--bordered tablesorter " id="searchProductTable" >
+  
+                    <thead>
+                        <tr class="slds-text-heading--label">
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Brand</div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Price</div>
+                            </th>
+                            <!--<th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Is this a Sale Price?</div>
+                            </th>-->
+
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <apex:repeat value="{!archivePrices}" var="archPrices">
+                            <tr class="slds-hint-parent">
+                                <td class="slds-truncate" scope="row" data-label="del">
+                                    <apex:outputtext value="{!archPrices.rpBrandName}"/>
+                               
+                                </td>
+                                <td class="" data-label="Price">
+                                    <apex:inputField value="{!archPrices.wrapRP.Price__c}" />
+
+                                </td>
+                                <!--
+                                <td class="" data-label="SalePrice">
+                                    <apex:inputField value="{!archPrices.wrapRP.Sale_Price__c}" styleClass="requestItemCheckBox" />
+                            
+                                </td>
+                                -->
+                                <td class="quantity delete-btn" id="{!archPrices.wrapRP.Id}" data-label="deleteRP">
+                                        <apex:commandLink action="{!createDeletionRequest}"  value="Delete" rendered="{!AND(archPrices.wrapRP.Id != NULL, userProfileName == 'System Administrator')}">
+                                            <apex:param name="RPId" value="{!archPrices.wrapRP.Id}"  assignTo="{!deleteItemId}"/>
+                                        </apex:commandLink>
+
+                                        <apex:commandLink action="{!removeBrand}"  value="Delete" rendered="{!AND(archPrices.wrapRP.Id == NULL, userProfileName == 'System Administrator')}">
+                                            <apex:param name="RPId" value="{!archPrices.rpBrandName}"  assignTo="{!removeBrandName}"/>
+                                        </apex:commandLink>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+
+    <apex:form >
+            <table width="100%" border="0" class="searchResultsTable">
+            <tr>  
+
+              <td valign="top" class="brandList">
+              <apex:pageBlock mode="edit" id="results" >
+                  <apex:pageBlockTable value="{!productBrands}" var="brand">
+                    
+                    <apex:column width="50">
+                        <apex:facet name="header">
+                        <apex:outputText value="Select Brands" /> 
+                        </apex:facet>
+                        
+                        <input type="text" id="matchId{!brand.wrapBrand.Id}" value="{!brand.wrapBrand.Id}" style="display:none;"  />
+                        <input type="checkbox" id="prodSelectState{!brand.wrapBrand.Id}"  onclick="recordSelection('{!brand.wrapBrand.Id}'); return null;" class="requestItemCheckBox" style="margin-left: 30%;"/>
+                        
+                    </apex:column>
+
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:commandLink value="Brand Name"  rerender="results,debug">
+                                <apex:param name="sortField" value="Name" assignTo="{!sortField}"/>
+                            </apex:commandLink>
+                        </apex:facet>
+                        <apex:outputField value="{!brand.wrapBrand.Name}" style="font-size:13px" />
+                    </apex:column>
+                  </apex:pageBlockTable>
+              </apex:pageBlock>
+      
+              </td>
+            </tr>
+            </table>
+        </apex:form>
+  
+
+        <script type="text/javascript">
+            var listOfSelected = "";
+            var selectedArray = [];
+
+            function search() {
+                clearFrontendSelections();
+
+                searchServer(
+                    document.getElementById("searchVal").value
+                );
+                return null;
+            }
+
+            function recordSelection(brandId) { 
+                var brandId = document.getElementById("matchId"+brandId).value;
+                var selectedState = document.getElementById("prodSelectState"+brandId).checked;
+
+                selectedArray.push(document.getElementById("matchId"+brandId).value);
+
+                //debug
+                //console.log("recordSelection - recorded selection: " + brandId + "  brandSelectState.checked: " + selectedState );
+                
+                listOfSelected+="" + brandId +","+ selectedState + ",";
+
+                return false;
+
+            }
+
+            function addBrand(){
+            
+                var str = listOfSelected.slice(0, -1);
+                addLI(str);
+
+                //debug
+                console.log("addBrand - list of selected submitted: " + str);
+                
+                clearFrontendSelections();
+                return false;
+            }
+
+            function clearFrontendSelections(){
+                var i;
+                for(i=0; i<selectedArray.length; i++){
+                    document.getElementById("prodSelectState"+selectedArray[i]).checked = false;
+                }
+
+                listOfSelected='';
+                selectedArray = [];
+                //debug
+                console.log("clearFrontendSelections executed " );
+                return false;
+            }
+
+
+
+        </script> 
+</apex:page>

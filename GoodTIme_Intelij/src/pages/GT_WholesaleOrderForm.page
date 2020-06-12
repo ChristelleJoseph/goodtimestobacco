@@ -1,0 +1,614 @@
+<apex:page controller="GT_WholesaleOrderForm" action="{!onPageLoad}" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>SLDS ResponsiveDesign Visualforce Page in Salesforce Mobile</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:slds />
+            
+            <style>
+                .quantity {
+                    border-left-width: 1px;
+                    border-color: #54698d;
+                    border-style: solid;
+                    border-right-width: 0px;
+                    border-bottom-width: 0px;
+                    border-top-width: 0px;
+                }
+        
+                .slds-button_neutral {
+                    height: 30px !important;
+                    margin-left: 10px !important;
+                }
+        
+                html {
+                    background: #f8f8f8;
+                }
+        
+                body {
+                    background: transparent !important;
+                }
+        
+                #ControlOutter {
+                    position: relative;
+                    width: 94vw;
+                    margin: 3vw;
+                    background: #ffffff;
+                }
+        
+                .btnSearch {
+                    margin-top: 10px;
+                }
+        
+                .searchResultsTable {
+                    font-size: 18px;
+                }
+        
+                .requestItemCheckBox {
+                    height: 25px !important;
+                    width: 25px !important;
+                    margin-left: 35%;
+                    margin: 5px;
+                }
+        
+                .requestItemCheckBox:checked {
+                    background-color: green !important;
+                }
+        
+                .matchRequestButton {
+                    margin-top: 20px !important;
+                }
+        
+                .bPageBlock {
+                    border-top: 4px solid #d6daf7;
+                }
+        
+                .input {
+                    margin-left: 5px !important;
+                    vertical-align: middle !important;
+                }
+        
+                .lookupInput {
+                    width: 100%;
+                }
+        
+                .slds-p-around_medium,
+                .slds-p-around--medium {
+                    padding: 1rem;
+                    width: 100%;
+                    min-width: 1000px;
+                }
+        
+                #divDebugPanel {}
+        
+                #searchProductTable {
+                    font-size: x-small;
+                }
+        
+                .dateFormat {
+                    visibility: hidden;
+                    display: none;
+                }
+        
+                .order-information {
+                    position: relative;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+        
+                .account-information {
+                    position: relative;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+        
+                .form-header-span {
+                    font-weight: bold;
+                }
+        
+                .center-wrapper {
+                    text-align: center;
+                }
+        
+                .buttons-panel {
+                    display: inline-block;
+                    margin-bottom: 10px;
+                }
+        
+                #table-footer-note {
+                    font-weight: bold;
+                    font-size: 9px;
+                    margin: 5px;
+                }
+        
+                .submitted-message {
+                    font-weight: bold;
+                    margin: 5px;
+                    display: inline-block;
+                }
+        
+                #additional-notes {}
+                
+                .slds-col { width: 33% }
+                .slds-grid { padding: 6px; }
+                .addressCls { text-align: center; font-size: 12px; }
+                .soldToCls { font-size: 14px; font-weight: bold; padding: 5px; border-bottom: 1.5px solid #ccc; }
+                .goodTimesImg { padding: 10px 10px 10px 24px; }
+                .tableBackground { background-color: #fdfdfd; }
+                .message.errorM3 { width: 100%; padding: 1rem; border: 1px solid #d88197; margin-bottom: 12px; }
+                
+                @media screen and (min-width: 768px) {
+                	td.searchTd:last-child { padding-left: 1em; }
+                }
+                
+                @media screen and (max-width: 768px) {
+                	body { margin: unset; }
+                    .slds-scope .slds-grid { display: block; text-align: center; width: 100%; margin: unset; }
+                    .slds-col { width: 100%; }
+                    .parentCol { margin-top: 12px; }
+                    .tableBackground .slds-grid.slds-gutters { display: flex; }
+                    .slds-p-around_medium, .slds-p-around--medium { min-width: unset; padding: 1rem 0 !important; }
+                    .slds-table .slds-text-heading--label { text-transform: none; letter-spacing: unset; font-weight: unset; }
+                    td.searchTd { width: 100%; display: block; }
+                    td.searchTd:first-child { padding: 8px 2rem; background: #fff; border: 1px solid #ccc; width: 90%; display: block; margin: 1em; }
+                	td.searchTd:last-child { width: 95%; display: block; margin: 1em; }
+                    .bPageBlock { border-top: unset; }
+                    .searchResultsTable { font-size: inherit; margin-bottom: 4em; }
+                /* .requestItemCheckBox { height: 18px !important; width: 18px !important; } */
+                    .descriptionTD { padding-left: 12px; }
+                    .buttons-panel { margin-bottom: unset; display: block; width: 97%; }
+                    .buttons-panel input { margin-bottom: 6px; }
+                    .slds-scope .slds-table thead th { padding: 0.25rem .2rem; }
+                	.slds-scope .slds-table th, .slds-scope .slds-table td { padding: .25rem .25rem; }
+                	.productCode { white-space: unset !important; display: block; }
+            </style>
+            
+            <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js" />
+        </head>
+        <body>
+            <div class="slds-scope">
+                <apex:form id="orderInputForm" onkeyup="submitListener(event)">
+                    <apex:actionFunction name="onFormSubmit" action="{!saveOrder}"/>
+                    
+                    <div class="ptBreadcrumb" style="padding-bottom: 5px;">&nbsp;«&nbsp;
+                        <a href="/{!currentAccount.Id}">Back to Account</a>
+                    </div>
+                    
+                    <div class="center-wrapper">
+                        <apex:outputText styleClass="submitted-message" rendered="{!currentOrder.Status == 'Activated'}" value="This order has been submitted for processing, to make changes to this order please contact {!ordersOwner.OwnerName__c} at {!ordersOwner.Email__c}"></apex:outputText>
+                        <apex:outputText styleClass="submitted-message" rendered="{!currentOrder.Status == 'Draft'}" value="This order is currently in its draft stage."></apex:outputText>
+                        <apex:outputText styleClass="submitted-message" rendered="{!currentOrder.Status == 'Historical'}" value="This order has been archived. Please create a new order to initiate the order process for this account."></apex:outputText>
+                    </div>
+                    
+                    <apex:pageMessages id="errors" />
+                    
+                    <apex:actionFunction name="addLI" action="{!addLineItem}" rerender="select_list, modal-content-id-1, errors, results,debug,errors">
+                        <apex:param name="selectedItems" assignTo="{!selectedList}" value="" />
+                    </apex:actionFunction>
+
+                    <div class="center-wrapper">
+                        <div class="buttons-panel">
+                            <apex:commandButton styleClass="slds-button_neutral" value="Submit Order" action="{!submitOrder}" rendered="{!currentOrder.Status == 'Draft' && ordersAllowed == TRUE}"/>
+                            <apex:commandButton styleClass="slds-button_neutral" value="New Order" action="{!newOrder}" rendered="{!ordersAllowed == TRUE}"/>
+                            <apex:commandButton styleClass="slds-button_neutral" value="Save Changes" action="{!saveOrder}" rendered="{!currentOrder.Status == 'Draft' && ordersAllowed == TRUE}"/>
+                            <apex:commandButton styleClass="slds-button_neutral" value="Add Order Items" onclick="addLineItem(); return false;" rendered="{!currentOrder.Status == 'Draft' && ordersAllowed == TRUE}"/>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col goodTimesImg parentCol">
+                            <apex:image id="theImage" value="{!$Resource.goodTimes}" width="200" height="200"/>
+                        </div>
+                        <div class="slds-col addressCls slds-text-heading--label parentCol">
+                            Good Times USA, LLC <br/>
+                            8408 Temple Terrace Highway <br/>
+                            Tampa, FL 33637  813-621-8702
+                        </div>
+                        <div class="slds-col parentCol">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Good Times Sales Representative:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentOrder.Owner.Name}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Good Times Representative Email:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentOrder.Owner.Email}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Good Times Representative Phone #:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentOrder.Owner.Phone}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="soldToCls">
+                        Sold To:
+                    </div>
+                    
+                    <div class="slds-grid slds-gutters tableBackground">
+                        <div class="slds-col">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Order Number:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentOrder.OrderNumber}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Order Type:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentOrder.Type}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Order Status:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentOrder.Status}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Cases:
+                                </div>
+                                <div class="slds-col">
+                                    <apex:outputText value="{!currentOrder.Total_Displays__c}"></apex:outputText>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Order Submitted Date:
+                                </div>
+                                <div class="slds-col">
+                                    <div id="OrderDate">
+                                        <span>
+                                            <apex:outputText value="{0, date, MMMM d','  yyyy}">
+                                                <apex:param value="{!currentOrder.EffectiveDate}" />
+                                            </apex:outputText>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Account #:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentAccount.Account__c}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Account Name:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentAccount.Name}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Account Phone:
+                                </div>
+                                <div class="slds-col">
+                                    <div id="AccountEmail">
+                                        <a href="tel:{!currentAccount.Phone}"><span>{!currentAccount.Phone}</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Account Email:
+                                </div>
+                                <div class="slds-col">
+                                    <div id="AccountEmail">
+                                        <a href="mailto:{!currentAccount.Email__c}"><span>{!currentAccount.Email__c}</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Good Times Representative Email:
+                                </div>
+                                <div class="slds-col">
+                                    {!currentOrder.Owner.Email}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Account Address:
+                                </div>
+                                <div class="slds-col">
+                                    <div id="TrackingNumber">
+                                        <apex:outputPanel >
+                                            <apex:outputText value="{!currentAccount.ShippingStreet}"/>&nbsp;
+                                            <apex:outputText value="{!currentAccount.ShippingCity}"/>&nbsp;<br />
+                                            <apex:outputText value="{!currentAccount.ShippingState}"/>&nbsp;
+                                            <apex:outputText value="{!currentAccount.ShippingCountry}"/>&nbsp;
+                                            <apex:outputText value="{!currentAccount.ShippingPostalCode}"/>
+                                        </apex:outputPanel>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    PO Number:
+                                </div>
+                                <div class="slds-col">
+                                    <div id="additional-notes">
+                                        <span>
+                                            <apex:inputfield value="{!currentOrder.PoNumber}" rendered="{!currentOrder.Status == 'Draft'}" style="width: 95%;max-height:75px;"/>
+                                            <apex:outputtext value="{!currentOrder.PoNumber}" rendered="{!currentOrder.Status != 'Draft'}" style="width: 95%;max-height:75px;"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-text-heading--label">
+                                    Additional Notes:
+                                </div>
+                                <div class="slds-col">
+                                    <div id="additional-notes">
+                                        <span>
+                                            <apex:inputfield value="{!currentOrder.Additional_Notes__c}" rendered="{!currentOrder.Status == 'Draft'}" style="width: 95%;max-height:75px;"/>
+                                            <apex:outputtext value="{!currentOrder.Additional_Notes__c}" rendered="{!currentOrder.Status != 'Draft'}" style="width: 95%;max-height:75px;"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <apex:outputPanel layout="block" styleClass="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="slds-scrollable--y" style="overflow-y:scroll; height:100%">
+                            <table class="slds-table slds-table--bordered tablesorter " id="searchProductTable">
+                                <thead>
+                                    <tr class="slds-text-heading--label">
+                                        <th class="slds-is-sortable" scope="col">
+                                            <div class="slds-truncate"></div>
+                                        </th>
+                                        <th class="slds-is-sortable productCode" scope="col">
+                                            <div class="slds-truncate"></div>
+                                        </th>
+                                        <apex:repeat value="{!orders}" var="order">
+                                            <th class="slds-is-sortable quantity" scope="col">
+                                                <div class="slds-truncate"></div>
+                                            </th>
+                                            <th class="slds-is-sortable" scope="col">
+                                                <div class="slds-truncate"></div>
+                                            </th>
+                                        </apex:repeat>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr class="slds-text-heading--label">
+                                        <th class="slds-is-sortable" scope="col">
+                                            <div class="slds-truncate">Product#</div>
+                                        </th>
+                                        <th class="slds-is-sortable productCode" scope="col">
+                                            <div class="slds-truncate">Product Description</div>
+                                        </th>
+                                        <apex:repeat value="{!orders}" var="order">
+                                            <th class="slds-is-sortable quantity" scope="col">
+                                                <div class="slds-truncate"></div>
+                                            </th>
+                                            <th class="slds-is-sortable" scope="col">
+                                                <div class="slds-truncate">Quantity (Cases)*</div>
+                                            </th>
+                                        </apex:repeat>
+                                    </tr>
+                                </thead>
+            
+                                <tbody>
+                                    <apex:repeat value="{!OrderDTOs}" var="OrderDTO">
+                                        <tr class="slds-hint-parent">
+                                            <td class="" data-label="Product">
+                                                <apex:outputtext value="{!OrderDTO.productNumber}" />
+                                                <apex:outputtext value="{!OrderDTO.ordLI[currentOrder].Product2.Item_Num__c}" rendered="{!OrderDTO.isNew}" style="width: 100%"/>
+                                            </td>
+                                            <td class="productCode" data-label="ProductCode">
+                                                <apex:outputtext value="{!OrderDTO.productDescription}" />
+                                                <apex:outputtext value="{!OrderDTO.productName}" rendered="{!OrderDTO.isNew}" style="width: 100%" />
+                                            </td>
+                                            <apex:repeat value="{!orders}" var="order">
+                                                <td class="quantity delete-btn" id="{!OrderDTO.ordLI[order.id].Id}">
+                                                    <apex:commandLink action="{!createDeletionRequest}" value="Delete" rendered="{!IF(currentOrder.Status != 'Draft', false, IF(OrderDTO.ordLI[order.id].Id != NULL, true, false))}">
+                                                        <apex:param name="rliId" value="{!OrderDTO.ordLI[order.id].Id}" assignTo="{!deleteItemId}" />
+                                                    </apex:commandLink>
+                                                </td>
+                                                <td class="">
+                                                    <apex:outputPanel id="out-quant">
+                                                        <apex:outputtext value="{!OrderDTO.ordLI[order.id].Quantity}" rendered="{! currentOrder.Status != 'Draft' && OrderDTO.ordLI[order.id].Quantity_Type__c == 'Display'}"
+                                                            id="out-quant-disp" />
+                                                    </apex:outputPanel>
+            
+                                                    <apex:outputPanel id="in-quant">
+                                                        <apex:inputfield value="{!OrderDTO.ordLI[order.id].Quantity}" rendered="{!currentOrder.Status == 'Draft' && OrderDTO.ordLI[order.id].Quantity_Type__c == 'Display'}"
+                                                            style="width:6em" id="in-quant-disp" />
+                                                    </apex:outputPanel>
+                                                </td>
+                                            </apex:repeat>
+                                        </tr>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                            <div Id="table-footer-note">* - required fields must be filled in to save order line item</div>
+                        </div>
+                        <script>
+                            j$ = jQuery.noConflict();
+                            j$.each(j$('.product-age'), function (index, element) {
+                                var ageCount = j$(element).text();
+                                if (ageCount > 0 && ageCount < 365 || ageCount == 0) {
+                                    j$(element).css('backgroundColor', '#b6fbb6');
+                                } else if (ageCount > 365 && ageCount < 730) {
+                                    j$(element).css('backgroundColor', '#f9f988');
+                                } else if (ageCount > 730) {
+                                    j$(element).css('backgroundColor', '#f97272');
+                                } else if (ageCount < 0) {
+                                    j$(element).css('backgroundColor', '#ff8d3b');
+                                }
+                            });
+                        </script>
+                    </apex:outputPanel>
+                </apex:form>
+                
+                <apex:form rendered="{!currentOrder.Status == 'Draft'}">
+                    <table width="100%" border="0" class="searchResultsTable">
+                        <tr>
+                            <td width="200" valign="top" class="searchTd">
+                                <apex:pageBlock title="Search" mode="edit" id="criteria">
+                                    <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors">
+                                        <apex:param name="searchVal" value="" />
+                                    </apex:actionFunction>
+            
+                                    <table cellpadding="2" cellspacing="2">
+                                        <tr>
+                                            <td style="font-weight:bold;">Item Name
+                                                <br/>
+                                                <input type="text" id="searchVal" value=" " />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <br/>
+                                                <apex:commandButton value="Search" styleClass="slds-button_neutral" onclick="search(); return false;" reRender="none"></apex:commandButton>
+                                                <apex:commandButton value="Clear Selections" styleClass="slds-button_neutral" onclick="clearFrontendSelections(); return false;"></apex:commandButton>
+                                                <apex:commandButton styleClass="slds-button_neutral" value="Add Order Items" onclick="addLineItem(); return false;" rendered="{!currentOrder.Status == 'Draft' && ordersAllowed == TRUE}"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+            
+                                    <br/>
+                                    <p style="font-weight:bold; font-size:9px;">*Note that all searches only order items with item status 1 or 2.</p>
+                                </apex:pageBlock>
+                            </td>
+            
+                            <td valign="top" class="searchTd">
+                                <apex:pageBlock mode="edit" id="results">
+                                    <apex:pageBlockTable value="{!prodList}" var="prod">
+                                        <apex:column >
+                                            <apex:facet name="header">
+                                                <apex:outputText value="Select" />
+                                            </apex:facet>
+                                            <input type="text" id="matchId{!prod.wrappedProd.Id}" value="{!prod.wrappedProd.Id}" style="display:none;" />
+                                            <input type="checkbox" id="prodSelectState{!prod.wrappedProd.Id}" onclick="recordSelection('{!prod.wrappedProd.Id}'); return null;"
+                                                class="requestItemCheckBox" />
+                                        </apex:column>
+            
+                                        <apex:column >
+                                            <apex:facet name="header">
+                                                <apex:commandLink value="Item Description" action="{!toggleSort}" rerender="results,debug" styleClass="descriptionTD">
+                                                    <apex:param name="sortField" value="Name" assignTo="{!sortField}" />
+                                                </apex:commandLink>
+                                            </apex:facet>
+                                            <apex:outputText value="{!prod.wrappedProd.Name}" style="font-size: x-small;" />
+                                        </apex:column>
+            
+                                        <apex:column >
+                                            <apex:facet name="header">
+                                                <apex:commandLink value="Item Number" action="{!toggleSort}" rerender="results,debug">
+                                                    <apex:param name="sortField" value="ProductCode" assignTo="{!sortField}" />
+                                                </apex:commandLink>
+                                            </apex:facet>
+                                            <apex:outputText value="{!prod.wrappedProd.ProductCode}" style="font-size: x-small;" />
+                                        </apex:column>
+                                    </apex:pageBlockTable>
+                                </apex:pageBlock>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </apex:form>
+                
+                <script type="text/javascript">
+                    var listOfSelected = "";
+                    var selectedArray = [];
+            
+                    function search() {
+                        clearFrontendSelections();
+            
+                        searchServer(
+                            document.getElementById("searchVal").value
+                        );
+                        return null;
+                    }
+            
+                    function recordSelection(prodId) {
+                        var prodId = document.getElementById("matchId" + prodId).value;
+                        var selectedState = document.getElementById("prodSelectState" + prodId).checked;
+            
+                        selectedArray.push(document.getElementById("matchId" + prodId).value);
+            
+                        //debug
+                        //console.log("recordSelection - recorded selection: " + prodId + "  prodSelectState.checked: " + selectedState );
+            
+                        listOfSelected += "" + prodId + "," + selectedState + ",";
+                        
+                        return false;
+                    }
+            
+                    function addLineItem() {
+                        var str = listOfSelected.slice(0, -1);
+                        addLI(str);            
+                        clearFrontendSelections();
+                        return false;
+                    }
+            
+                    function clearFrontendSelections() {
+                        for(var i = 0; i < selectedArray.length; i++) {
+                            document.getElementById("prodSelectState" + selectedArray[i]).checked = false;
+                        }
+            
+                        listOfSelected = '';
+                        selectedArray = [];
+                        //debug
+                        //console.log("clearFrontendSelections executed " );
+                        return false;
+                    }
+            
+                    document.getElementById('searchVal').onkeypress = function (e) {
+                        if (e.keyCode == '13') {
+                            search();
+                            return false;
+                        }
+                    }
+            
+                    function submitListener(e) {
+                        var keynum = 0;
+                        if (window.event) {
+                            keynum = window.event.keyCode;
+                        }
+                        else if (e.which) {
+                            keynum = e.which;
+                        }
+            
+                        // Here we check whether the Enter button was pressed
+                        if (keynum == 13) {
+                            onFormSubmit();
+                            return false;
+                        }
+                    }
+                </script>
+            </div>
+        </body>
+    </html>
+</apex:page>

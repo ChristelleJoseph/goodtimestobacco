@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Inventory</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Inventory</value>
+    </caseValues>
+    <fields>
+        <label><!-- Account --></label>
+        <name>Account__c</name>
+        <relationshipLabel><!-- Inventory --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Displays_In_Case --></label>
+        <name>Displays_In_Case__c</name>
+    </fields>
+    <fields>
+        <label><!-- Visit Date --></label>
+        <name>Visit_Date__c</name>
+    </fields>
+    <layouts>
+        <layout>Inventory Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Inventory Line Item --></label>
+            <section>Inventory Line Item</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You can&apos;t create inventory for past --></errorMessage>
+        <name>You_can_create_inventory_only_for_today</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Clone --></label>
+        <name>Clone</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_Inventories_Report --></label>
+        <name>View_Inventories_Report</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_Inventories_Report_List --></label>
+        <name>View_Inventories_Report_List</name>
+    </webLinks>
+</CustomObjectTranslation>

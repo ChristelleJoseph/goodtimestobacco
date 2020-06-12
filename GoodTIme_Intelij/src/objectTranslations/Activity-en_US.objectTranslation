@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Purpose of call</value>
+        </caseValues>
+        <name>comments_activity</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Todays Date</value>
+        </caseValues>
+        <name>due_date_activity</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <label><!-- Notes and Comments Continued --></label>
+        <name>Notes_and_Comments_Continued__c</name>
+    </fields>
+    <fields>
+        <label><!-- Notes and Comments --></label>
+        <name>Notes_and_Comments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Subject --></label>
+        <name>Subject__c</name>
+        <picklistValues>
+            <masterLabel>Account Maintenance</masterLabel>
+            <translation><!-- Account Maintenance --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Inventory</masterLabel>
+            <translation><!-- Inventory --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Sales Meeting</masterLabel>
+            <translation><!-- Sales Meeting --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- What were your results? --></label>
+        <name>What_were_your_results__c</name>
+    </fields>
+</CustomObjectTranslation>

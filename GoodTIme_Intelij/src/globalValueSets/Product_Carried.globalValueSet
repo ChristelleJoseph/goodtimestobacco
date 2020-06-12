@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Black &amp; Mild</fullName>
+        <default>false</default>
+        <label>Black &amp; Mild</label>
+    </customValue>
+    <customValue>
+        <fullName>Clipper</fullName>
+        <default>false</default>
+        <label>Clipper</label>
+    </customValue>
+    <customValue>
+        <fullName>Dutch Master</fullName>
+        <default>false</default>
+        <label>Dutch Master</label>
+    </customValue>
+    <customValue>
+        <fullName>Fiesta</fullName>
+        <default>false</default>
+        <label>Fiesta</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </customValue>
+    <customValue>
+        <fullName>Shou</fullName>
+        <default>false</default>
+        <label>Shou</label>
+    </customValue>
+    <customValue>
+        <fullName>Swisher 2 for  99</fullName>
+        <default>false</default>
+        <label>Swisher 2 for  99</label>
+    </customValue>
+    <customValue>
+        <fullName>White Owl</fullName>
+        <default>false</default>
+        <label>White Owl</label>
+    </customValue>
+    <customValue>
+        <fullName>Zig Zag</fullName>
+        <default>false</default>
+        <label>Zig Zag</label>
+    </customValue>
+    <masterLabel>Product Carried</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

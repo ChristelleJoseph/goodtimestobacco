@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Age__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( ABS(Product_Date__c - TODAY()) &lt;= 365,IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==1,TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot;        &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20), 
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==2,TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot;      &quot;&amp;  IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==3,TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot;    &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==4,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;  &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20),TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot; &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20))))),
+
+IF(ABS(Product_Date__c - TODAY()) &gt; 365 &amp;&amp; ABS(Product_Date__c - TODAY()) &lt; 730,IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==1,TEXT(Product_Date__c - TODAY()) &amp;&quot;        &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==2,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;      &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==3,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;    &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==4,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;  &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot; &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20))))),
+
+IF(ABS(ABS(Product_Date__c - TODAY())) &gt;= 730,IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==1,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;        &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20), 
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==2,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;      &quot;&amp; IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==3,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;    &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==4,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;  &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20),TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot; &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20))))),NULL) ))</formula>
+        <label>Age</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Brand__c</fullName>
+        <externalId>false</externalId>
+        <formula>Product__r.Item_Class_Desc__c</formula>
+        <label>Brand</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Item_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>Product__r.Item_Desc__c</formula>
+        <label>Item Description</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Item__c</fullName>
+        <externalId>false</externalId>
+        <formula>Product__r.Item_Num__c</formula>
+        <label>Item #</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Product</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Product2.Item_Status__c</field>
+                <operation>notEqual</operation>
+                <value>3</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Product2</referenceTo>
+        <relationshipLabel>Line Items</relationshipLabel>
+        <relationshipName>Line_Items</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Projected_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Projected Amount</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>100%</fullName>
+                    <default>false</default>
+                    <label>100%</label>
+                </value>
+                <value>
+                    <fullName>50%</fullName>
+                    <default>false</default>
+                    <label>50%</label>
+                </value>
+                <value>
+                    <fullName>0%</fullName>
+                    <default>false</default>
+                    <label>0%</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>QTY__c</fullName>
+        <externalId>false</externalId>
+        <label>QTY</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Request_Ticket__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Request Ticket</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Line Items</relationshipLabel>
+        <relationshipName>Line_Items</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Return_Code_Formula__c</fullName>
+        <externalId>false</externalId>
+        <formula>LEFT(TEXT(Return_Code__c), 1)</formula>
+        <label>Return Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Return_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Return Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>1. Out of Date &gt;1 Year</fullName>
+                    <default>false</default>
+                    <label>1. Out of Date &gt;1 Year</label>
+                </value>
+                <value>
+                    <fullName>2. Product Not Performing &lt;1 Year</fullName>
+                    <default>false</default>
+                    <label>2. Product Not Performing &lt;1 Year</label>
+                </value>
+                <value>
+                    <fullName>3. Damage - Customer Warehouse</fullName>
+                    <default>false</default>
+                    <label>3. Damage - Customer Warehouse</label>
+                </value>
+                <value>
+                    <fullName>4. Damaged during Shipping</fullName>
+                    <default>false</default>
+                    <label>4. Damaged during Shipping</label>
+                </value>
+                <value>
+                    <fullName>5. Duplicate Order Shipped</fullName>
+                    <default>false</default>
+                    <label>5. Duplicate Order Shipped</label>
+                </value>
+                <value>
+                    <fullName>6. Product Defective</fullName>
+                    <default>false</default>
+                    <label>6. Product Defective</label>
+                </value>
+                <value>
+                    <fullName>7. Retail Return</fullName>
+                    <default>false</default>
+                    <label>7. Retail Return</label>
+                </value>
+                <value>
+                    <fullName>8. Distributor/Keying Error</fullName>
+                    <default>false</default>
+                    <label>8. Distributor/Keying Error</label>
+                </value>
+                <value>
+                    <fullName>9. Incorrect Quantity Ordered</fullName>
+                    <default>false</default>
+                    <label>9. Incorrect Quantity Ordered</label>
+                </value>
+                <value>
+                    <fullName>10. Incorrect Item Shipped</fullName>
+                    <default>false</default>
+                    <label>10. Incorrect Item Shipped</label>
+                </value>
+                <value>
+                    <fullName>11. Account Closing</fullName>
+                    <default>false</default>
+                    <label>11. Account Closing</label>
+                </value>
+                <value>
+                    <fullName>12. Other - Explain in Note Section</fullName>
+                    <default>false</default>
+                    <label>12. Other - Explain in Note Section</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Line Items</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>LI-{0000}</displayFormat>
+        <label>Line Item Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Line Items</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

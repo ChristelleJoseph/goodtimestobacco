@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Request Ticket</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Request Tickets</value>
+    </caseValues>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Access</value>
+        </caseValues>
+        <name>case_access</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Access Level</value>
+        </caseValues>
+        <name>case_access_level</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Account</value>
+        </caseValues>
+        <name>case_account</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Alert</value>
+        </caseValues>
+        <name>case_alert</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Article</value>
+        </caseValues>
+        <name>case_article</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Article ID</value>
+        </caseValues>
+        <name>case_article_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Asset</value>
+        </caseValues>
+        <name>case_asset</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Assignment Rule</value>
+        </caseValues>
+        <name>case_assignment_rule</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Capture</value>
+        </caseValues>
+        <name>case_capture</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Capture Information</value>
+        </caseValues>
+        <name>case_capture_information</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Capture Page</value>
+        </caseValues>
+        <name>case_capture_page</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Close</value>
+        </caseValues>
+        <name>case_close</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Closed</value>
+        </caseValues>
+        <name>case_closed</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Closure</value>
+        </caseValues>
+        <name>case_closure</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Comment</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Comments</value>
+        </caseValues>
+        <name>case_comment</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Comment ID</value>
+        </caseValues>
+        <name>case_comment_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Comment Information</value>
+        </caseValues>
+        <name>case_comment_information</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Company</value>
+        </caseValues>
+        <name>case_company</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Contact</value>
+        </caseValues>
+        <name>case_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Contact Role</value>
+        </caseValues>
+        <name>case_contact_role</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Created Date</value>
+        </caseValues>
+        <name>case_created_date</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Creator</value>
+        </caseValues>
+        <name>case_creator</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Currency</value>
+        </caseValues>
+        <name>case_currency</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Custom Field</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Custom Fields</value>
+        </caseValues>
+        <name>case_custom_field</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Description</value>
+        </caseValues>
+        <name>case_description</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Detail</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Details</value>
+        </caseValues>
+        <name>case_detail</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Detail Link</value>
+        </caseValues>
+        <name>case_detail_link</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Division</value>
+        </caseValues>
+        <name>case_division</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Edit</value>
+        </caseValues>
+        <name>case_edit</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Email</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Emails</value>
+        </caseValues>
+        <name>case_email</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Feed</value>
+        </caseValues>
+        <name>case_feed</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Field</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Fields</value>
+        </caseValues>
+        <name>case_field</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket History</value>
+        </caseValues>
+        <name>case_history</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket History ID</value>
+        </caseValues>
+        <name>case_history_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket History Info</value>
+        </caseValues>
+        <name>case_history_info</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket History Owner</value>
+        </caseValues>
+        <name>case_history_owner</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket History Report</value>
+        </caseValues>
+        <name>case_history_report</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket History Status</value>
+        </caseValues>
+        <name>case_history_status</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket ID</value>
+        </caseValues>
+        <name>case_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Information</value>
+        </caseValues>
+        <name>case_information</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Last Modified</value>
+        </caseValues>
+        <name>case_last_modified</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Lifecycle</value>
+        </caseValues>
+        <name>case_lifecycle</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Lifecycle Report</value>
+        </caseValues>
+        <name>case_lifecycle_report</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket List</value>
+        </caseValues>
+        <name>case_list</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Milestone</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Milestones</value>
+        </caseValues>
+        <name>case_milestone</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Name</value>
+        </caseValues>
+        <name>case_name</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Number</value>
+        </caseValues>
+        <name>case_number</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Origin</value>
+        </caseValues>
+        <name>case_origin</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Owner</value>
+        </caseValues>
+        <name>case_owner</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Owner Alias</value>
+        </caseValues>
+        <name>case_owner_alias</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Owner Role</value>
+        </caseValues>
+        <name>case_owner_role</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Phone</value>
+        </caseValues>
+        <name>case_phone</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Picklist</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Picklists</value>
+        </caseValues>
+        <name>case_picklist</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Priority</value>
+        </caseValues>
+        <name>case_priority</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Queue</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Queues</value>
+        </caseValues>
+        <name>case_queue</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Reason</value>
+        </caseValues>
+        <name>case_reason</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Record Type</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Record Types</value>
+        </caseValues>
+        <name>case_record_type</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Record Type ID</value>
+        </caseValues>
+        <name>case_record_type_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Report</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Reports</value>
+        </caseValues>
+        <name>case_report</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Solution</value>
+        </caseValues>
+        <name>case_solution</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Solution ID</value>
+        </caseValues>
+        <name>case_solution_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Splash Page</value>
+        </caseValues>
+        <name>case_splash_page</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Stage ID</value>
+        </caseValues>
+        <name>case_stage_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Status</value>
+        </caseValues>
+        <name>case_status</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Subject</value>
+        </caseValues>
+        <name>case_subject</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Team</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Teams</value>
+        </caseValues>
+        <name>case_team</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Team Member</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Team Members</value>
+        </caseValues>
+        <name>case_team_member</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Team Member Role</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Team Member Roles</value>
+        </caseValues>
+        <name>case_team_member_role</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Team Record</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Team Records</value>
+        </caseValues>
+        <name>case_team_record</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Type</value>
+        </caseValues>
+        <name>case_type</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket View</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Views</value>
+        </caseValues>
+        <name>case_view</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Tickets Detail Page</value>
+        </caseValues>
+        <name>cases_detail_page</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Tickets Tab</value>
+        </caseValues>
+        <name>cases_tab</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Related Request Ticket</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Related Request Tickets</value>
+        </caseValues>
+        <name>child_case</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Request Ticket Note</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Request Ticket Notes</value>
+        </caseValues>
+        <name>feed_filter_case_note</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Parent Request Ticket</value>
+        </caseValues>
+        <caseValues>
+            <plural>true</plural>
+            <value>Parent Request Tickets</value>
+        </caseValues>
+        <name>parent_case</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Parent Request Ticket ID</value>
+        </caseValues>
+        <name>parent_case_id</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Write Request Ticket Note</value>
+        </caseValues>
+        <name>publisher_private_answer</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>View Request Ticket Details</value>
+        </caseValues>
+        <name>publisher_view_details</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <label><!-- Account # --></label>
+        <name>Account__c</name>
+    </fields>
+    <fields>
+        <label><!-- Anticipated rebate amount --></label>
+        <name>Anticipated_rebate_amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Custom notes for this order --></label>
+        <name>Custom_notes_for_this_order__c</name>
+    </fields>
+    <fields>
+        <label><!-- Customer Email --></label>
+        <name>Customer_Email__c</name>
+    </fields>
+    <fields>
+        <label><!-- Email To --></label>
+        <name>Email_To__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is there a product problem? What is it? --></label>
+        <name>Is_there_a_product_problem_What_is_it__c</name>
+    </fields>
+    <fields>
+        <label><!-- Notes --></label>
+        <name>Notes__c</name>
+    </fields>
+    <fields>
+        <label><!-- # Of Boxes --></label>
+        <name>Of_Boxes__c</name>
+    </fields>
+    <fields>
+        <label><!-- RA # --></label>
+        <name>RA__c</name>
+    </fields>
+    <fields>
+        <label><!-- Reason for request? --></label>
+        <name>Reason_for_request__c</name>
+    </fields>
+    <fields>
+        <label><!-- Send Email --></label>
+        <name>Send_Email__c</name>
+    </fields>
+    <fields>
+        <label><!-- Today&apos;s Date --></label>
+        <name>Today_s_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- What is your promotional objective? --></label>
+        <name>What_is_your_promotional_objective__c</name>
+    </fields>
+    <fields>
+        <label><!-- Why is this product being returned? --></label>
+        <name>Why_is_this_product_being_returned__c</name>
+    </fields>
+    <fields>
+        <label><!-- sendEmailToOther --></label>
+        <name>sendEmailToOther__c</name>
+    </fields>
+    <layouts>
+        <layout>Case Other Layout</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Case Promotional Request Layout</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- NewChildCase --></label>
+        <name>NewChildCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Email --></label>
+        <name>Send_Email</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- MR - Other --></label>
+        <name>MR_Other</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- MR - POS Request --></label>
+        <name>MR_POS_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- MR - Promotional Request --></label>
+        <name>MR_Promotional_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- MR - Rebate Request --></label>
+        <name>MR_Rebate_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Request Ticket --></label>
+        <name>Request_Ticket</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Return Form --></label>
+        <name>Return_Form</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Email_Notification --></label>
+        <name>Email_Notification</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Email --></label>
+        <name>Send_Email</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Email_To_Customer --></label>
+        <name>Send_Email_To_Customer</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_mail --></label>
+        <name>Send_mail</name>
+    </webLinks>
+</CustomObjectTranslation>
