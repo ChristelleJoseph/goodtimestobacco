@@ -1,5 +1,4 @@
 public without sharing class GT_TMARecapClass {
-	//001Z000001VAERbIAP
 	private final Account acct;
 	public  Date startDate{get;set;}
 	public  Date endDate{get;set;}
@@ -18,6 +17,7 @@ public without sharing class GT_TMARecapClass {
 	}
 
 	public void DisplayTMARecapFormDataTable(){
+
 		showResults = false;
 		noResultsFoundMessage = false;
 		getOrderItemsFromAccount();
@@ -26,7 +26,7 @@ public without sharing class GT_TMARecapClass {
 		calculateTotalDiscount();
 	}
 
-	private void getOrderItemsFromAccount(){
+	public void getOrderItemsFromAccount(){
 		accountId = ApexPages.currentPage().getParameters().get('id');
 		orderItems = [
 				SELECT id, Brand__c, Item_Description__c, Quantity
@@ -37,9 +37,13 @@ public without sharing class GT_TMARecapClass {
 
 	private void getTMADiscountAndAllowanceRate(){
 		accountId = ApexPages.currentPage().getParameters().get('id');
+
+		if (startDate > endDate) {
+			tmaLineItems = new List<Trade_Marketing_Agreement_Line_Item__c>();
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'Please fill out all mandatory fields!'));
+		}
+
 		if(startDate != null && endDate != null && startDate <= endDate){
-			System.debug('startDate' + startDate);
-			System.debug('endDate' + endDate);
 			tmaLineItems = [
 					SELECT Allowance_Rate__c, Trade_Marketing_Agreement__r.Total_Discount__c
 					FROM Trade_Marketing_Agreement_Line_Item__c
@@ -48,12 +52,12 @@ public without sharing class GT_TMARecapClass {
 					AND Trade_Marketing_Agreement__r.End_Date__c =:endDate
 			];
 		}
-		if(tmaLineItems.size()> 0){
+		if (tmaLineItems.size()> 0){
 			showResults = true;
-			noResultsFoundMessage = false;
 		}else{
 			showResults = false;
-			noResultsFoundMessage = true;
+			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'No record found.'));
+
 		}
 	}
 
@@ -61,24 +65,23 @@ public without sharing class GT_TMARecapClass {
 	private void BuildTMARecapFormWithRequiredInformation(){
 
 			tmaWrapList = new List<TMAWrapperClassObject>();
+			Decimal discount = 0;
 			for(OrderItem order: orderItems)
 			{
 				for (Trade_Marketing_Agreement_Line_Item__c tmaLineItem : tmaLineItems)
 				{
+					discount = (order.Quantity * tmaLineItem.Allowance_Rate__c).setScale(2);
+
 					tmaWrapList.add(new TMAWrapperClassObject
-							(
-									order.Brand__c,
-									order.Item_Description__c,
-									order.Quantity,
-									tmaLineItem.Trade_Marketing_Agreement__r.Total_Discount__c,
-									tmaLineItem.Allowance_Rate__c)
-					);
+					(
+							order.Brand__c,
+							order.Item_Description__c,
+							order.Quantity,
+							discount,
+							tmaLineItem.Allowance_Rate__c)
+			);
 				}
-
-				System.debug('tmaWrapList' + tmaWrapList);
-				System.debug('tmaWrapList' + tmaWrapList.size());
 			}
-
 	}
 
 	private void calculateTotalDiscount(){
@@ -104,9 +107,3 @@ public without sharing class GT_TMARecapClass {
 		}
 	}
 }
-
-/*
-todo
-throw error message if start date is greater than end date
-if two TMA will List update to reflect?
- */

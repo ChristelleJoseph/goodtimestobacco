@@ -1,78 +1,7 @@
 <apex:page standardController="Account" extensions="GT_TMARecapClass" showHeader="true" sideBar="false" lightningStylesheets="true" docType="html-5.0">
-    <style>
-        .quantity{
-            border-left-width: 1px;
-            border-color: #54698d;
-            border-style: solid;
-            border-right-width: 0px;
-            border-bottom-width: 0px;
-            border-top-width: 0px;
 
-        }
 
-        .slds-button_neutral {
-            height: 30px !important;
-            margin-left: 10px !important;
-        }
 
-        html{
-            background: #f8f8f8;
-        }
-
-        body{
-            background: transparent !important;
-            font-size:small;
-        }
-
-        #ControlOutter{
-
-            position: relative;
-            width: 94vw;
-            margin: 3vw;
-            background: #ffffff;
-        }
-
-        .btnSearch{
-            margin-top: 10px;
-        }
-
-        .searchResultsTable{
-
-        }
-
-        .requestItemCheckBox {
-            height:25px !important;
-            width: 25px !important;
-            margin-left: 30%;
-
-        }
-        .requestItemCheckBox:checked{
-            background-color: green !important;
-        }
-
-        .matchRequestButton{
-            margin-top:20px !important;
-        }
-
-        .bPageBlock {
-            border-top: 4px solid #d6daf7;
-        }
-
-        .input{
-            margin-left: 5px !important;
-            vertical-align: middle !important;
-        }
-
-        #divDebugPanel{
-
-        }
-        .brandList{
-
-        }
-        .pageDescription{
-            line-height: normal !important;
-        }
-    </style>
     <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}"/>
     <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js"/>
@@ -85,37 +14,33 @@
         <div class="ptBreadcrumb" style="padding-bottom: 5px;">&nbsp;«&nbsp;
             <a href="/{!Account.Id}">Back to Account</a>
         </div>
-        <apex:pageMessages id="errors" />
 
         Start Date: <apex:input type="date" value="{!startDate}" required="true" />
         End Date: <apex:input type="date" value="{!endDate}" required="true" />
-
         <apex:commandButton styleClass="slds-button_neutral" value="Sync Order from Account" action="{!DisplayTMARecapFormDataTable}" reRender="modal-content-id-1" lang="End Date"/>
 
+        <br/><br/>
         <apex:outputPanel layout="block" id="modal-content-id-1">
+            <apex:pageMessages id="errors" />
             <apex:pageBlock  id="dataBlock" rendered="{!showResults}">
             <apex:dataTable value="{!tmaWrapList}" var="tma" id="theTable" rowClasses="odd,even" styleClass="tableClass">
                 <apex:column>
                     <apex:facet name="header">Brand</apex:facet>
                     <apex:outputText value="{!tma.brand}"/>
                 </apex:column>
-
                 <apex:column>
                     <apex:facet name="header">Brand Description</apex:facet>
                     <apex:outputText value="{!tma.brandDescription}"/>
                 </apex:column>
-
                 <apex:column>
                     <apex:facet name="header">Allowance Rate</apex:facet>
                     <apex:outputText value="{!tma.allowanceRate}"/>
                 </apex:column>
-
                 <apex:column>
                     <apex:facet name="header">Quantity</apex:facet>
-                    <apex:facet name="footer">Total Discount</apex:facet>
-                    <apex:outputText value="{!tma.quantity}"/>
+                    <apex:facet name="footer"><b>Total Discount</b></apex:facet>
+                    <apex:InputText value="{!tma.quantity}"/>
                 </apex:column>
-
                 <apex:column>
                     <apex:facet name="header">Discount</apex:facet>
                     <apex:facet name="footer">{!totalDiscount}</apex:facet>
@@ -123,21 +48,8 @@
                 </apex:column>
             </apex:dataTable>
             </apex:pageBlock>
-            <apex:outputLabel id="noRecFound" rendered="{!noResultsFoundMessage}"> <h2>No Record Found</h2> </apex:outputLabel>
+            <apex:outputLabel id="noRecFound"></apex:outputLabel>
+            <!--            <apex:outputLabel id="noRecFound" rendered="{!noResultsFoundMessage}"> <h2>No Record Found</h2> </apex:outputLabel>-->
         </apex:outputPanel>
     </apex:form>
 </apex:page>
-
-
-
-
-
-
-
-<!--        rendered="{!showResults}"-->
-<!--        <apex:outputPanel layout="block" styleClass="slds-modal__content slds-p-around_medium" id="modal-content-id-2" >-->
-<!--            <apex:panelGrid columns="2" id="theGrid"  style="float: right">-->
-<!--                <apex:outputText value="Total Discount" id="theFirst" />-->
-<!--                <apex:outputText value="{!totalDiscountList[0]}" id="theSecond"/>-->
-<!--            </apex:panelGrid>-->
-<!--        </apex:outputPanel>-->
