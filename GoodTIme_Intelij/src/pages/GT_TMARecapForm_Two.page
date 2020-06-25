@@ -1,0 +1,52 @@
+<apex:page standardController="Trade_Marketing_Agreement__c" extensions="GT_TMARecapClass_Two" action="{!DisplayTMARecapFormDataTable}" showHeader="true" sideBar="false" lightningStylesheets="true" docType="html-5.0">
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}"/>
+    <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <apex:form>
+        <apex:sectionHeader title="" subtitle="Trade Marketing Recap Form"/>
+        <div class="ptBreadcrumb" style="padding-bottom: 5px;">&nbsp;«&nbsp;
+            <a href="/{!Trade_Marketing_Agreement__c.Id}">Back to Trade Marketing Agreement</a>
+        </div>
+
+        Start Date: <apex:input type="date" value="{!startDate}" required="true" />
+        End Date: <apex:input type="date" value="{!endDate}" required="true" />
+        <apex:commandButton styleClass="slds-button_neutral" value="Save" action="{!save}" reRender="modal-content-id-1" lang="End Date"/>
+
+        <br/><br/>
+        <apex:outputPanel layout="block" id="modal-content-id-1">
+            <apex:pageMessages id="errors" />
+            <apex:pageBlock  id="dataBlock" rendered="{!showResults}">
+                <apex:dataTable value="{!tmaWrapList}" var="tma" id="theTable" rowClasses="odd,even" styleClass="tableClass">
+                    <apex:column>
+                        <apex:facet name="header">Brand</apex:facet>
+                        <apex:outputText value="{!tma.brand}"/>
+                    </apex:column>
+                    <apex:column>
+                        <apex:facet name="header">Brand Description</apex:facet>
+                        <apex:outputText value="{!tma.brandDescription}"/>
+                    </apex:column>
+                    <apex:column>
+                        <apex:facet name="header">Allowance Rate</apex:facet>
+                        <apex:outputText value="{!tma.allowanceRate}"/>
+                    </apex:column>
+                    <apex:column>
+                        <apex:facet name="header">Quantity</apex:facet>
+                        <apex:facet name="footer"><b>Total Discount</b></apex:facet>
+                        <apex:InputText value="{!tma.quantity}"/>
+                    </apex:column>
+                    <apex:column>
+                        <apex:facet name="header">Discount</apex:facet>
+                        <apex:facet name="footer">{!totalDiscount}</apex:facet>
+                        <apex:outputText value="{!tma.discount}"/>
+                    </apex:column>
+                </apex:dataTable>
+            </apex:pageBlock>
+            <apex:outputLabel id="noRecFound"></apex:outputLabel>
+            <!--            <apex:outputLabel id="noRecFound" rendered="{!noResultsFoundMessage}"> <h2>No Record Found</h2> </apex:outputLabel>-->
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>
