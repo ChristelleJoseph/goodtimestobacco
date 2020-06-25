@@ -1,0 +1,12 @@
+.THIS.slds-wrap { background: #fff !important; padding: 26px; }
+.THIS.articleCard { background: #f8f8f8 !important; }
+.THIS .articleBody { border: #f3f2f2; padding: 12px; background: #f3f2f2; box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.10); }
+.THIS .backAccountLink { padding-left: 26px; }
+.THIS .buttonGroup { margin: 16px 0; width: 100%; display: block; text-align: center; }
+.THIS .buttonGroup li { display: inline-block; }
+.THIS .selectedBrandsTable { margin: 26px 0; }
+.THIS .slds-form-element.slds-dropdown-trigger.slds-dropdown-trigger_click.slds-size_1-of-1 label { display: none; }
+.THIS .lookupResult { display: block !important; }
+.THIS .slds-checkbox { float: left; }
+.THIS label.slds-form-element__label.slds-no-flex { display: none; }
+.THIS .slds-checkbox [type=checkbox] { border: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorderInput,rgb(221, 219, 218)); position: inherit; height: 22px; width: 22px; }

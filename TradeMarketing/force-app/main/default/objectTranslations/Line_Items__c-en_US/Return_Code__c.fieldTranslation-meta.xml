@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Return Code --></label>
+    <name>Return_Code__c</name>
+    <picklistValues>
+        <masterLabel>1. Out of Date &gt;1 Year</masterLabel>
+        <translation><!-- 1. Out of Date &gt;1 Year --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>10. Incorrect Item Shipped</masterLabel>
+        <translation><!-- 10. Incorrect Item Shipped --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>11. Account Closing</masterLabel>
+        <translation><!-- 11. Account Closing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>12. Other - Explain in Note Section</masterLabel>
+        <translation><!-- 12. Other - Explain in Note Section --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>2. Product Not Performing &lt;1 Year</masterLabel>
+        <translation><!-- 2. Product Not Performing &lt;1 Year --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>3. Damage - Customer Warehouse</masterLabel>
+        <translation><!-- 3. Damage - Customer Warehouse --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>4. Damaged during Shipping</masterLabel>
+        <translation><!-- 4. Damaged during Shipping --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>5. Duplicate Order Shipped</masterLabel>
+        <translation><!-- 5. Duplicate Order Shipped --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>6. Product Defective</masterLabel>
+        <translation><!-- 6. Product Defective --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>7. Retail Return</masterLabel>
+        <translation><!-- 7. Retail Return --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>8. Distributor/Keying Error</masterLabel>
+        <translation><!-- 8. Distributor/Keying Error --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>9. Incorrect Quantity Ordered</masterLabel>
+        <translation><!-- 9. Incorrect Quantity Ordered --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

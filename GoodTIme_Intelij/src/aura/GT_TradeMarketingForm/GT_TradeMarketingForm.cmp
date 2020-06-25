@@ -1,0 +1,200 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable" controller="GT_TradeMarketingFormController" access="global">
+	<aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="tmaRecord" type="Trade_Marketing_Agreement__c" default="{}"/>
+    <aura:attribute name="lineItems" type="Trade_Marketing_Agreement_Line_Item__c[]" default="[]"/>
+    
+    <aura:attribute name="searchName" type="String" default=""/>
+    <aura:attribute name="promotions" type="Trade_Marketing_Agreement_Promotion__c[]" default="[]"/>
+    
+    <aura:attribute name="displayPill" type="Boolean" default="false"/>
+    <aura:attribute name="promotion" type="Trade_Marketing_Agreement_Promotion__c" default="{}"/>
+    <aura:attribute name="productBrands" type="List" default="[]"/>
+    <aura:attribute name="newLineItems" type="Trade_Marketing_Agreement_Line_Item__c[]" default="[]"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:navigation aura:id="navService"/>
+    
+    <article class="slds-card articleCard">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                </div>
+                <div class="slds-media__body slds-truncate articleBody">
+                    <h2>
+                        <a href="javascript:void(0);" class="slds-text-link--reset">
+                            <span class="slds-text-heading--small">Trade Marketing Form</span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+            </div>
+        </div>
+        <div class="slds-card__body backAccountLink">
+            &lt;&lt; <lightning:formattedUrl value="{!'/' + v.tmaRecord.Account__c}" label="Back to Account" />
+        </div>
+    </article>
+    
+    <div class="slds-wrap">
+        <div class="slds-form" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                        <span class="slds-form-element__label">Start Date</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning:input type="date" name="input1" label="" value="{!v.tmaRecord.Start_Date__c}"/>
+                            </div>
+                            <!-- button class="slds-button slds-button_icon" title="Edit: SLA Expiration Date">
+                                <span class="slds-assistive-text">Edit: SLA Expiration Date</span>
+                            </button -->
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                        <span class="slds-form-element__label">End Date</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning:input type="date" name="input1" label="" value="{!v.tmaRecord.End_Date__c}"/>
+                            </div>
+                            <!-- button class="slds-button slds-button_icon" title="Edit: SLA Expiration Date">
+                                <span class="slds-assistive-text">Edit: SLA Expiration Date</span>
+                            </button -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <ul class="slds-button-group-row buttonGroup">
+            <li class="slds-button-group-item">
+                <button class="slds-button slds-button_neutral" onclick="{!c.saveRecord}">Save Changes</button>
+            </li>
+            <li class="slds-button-group-item">
+                <button class="slds-button slds-button_neutral" onclick="{!c.addLineItems}">Add Brands</button>
+            </li>
+            <li class="slds-button-group-item">
+                <button class="slds-button slds-button_neutral">Submit For Approval</button>
+            </li>
+            <li class="slds-button-group-item">
+                <button class="slds-button slds-button_neutral" onclick="{!c.launchRecap}">Launch Recap Form</button>
+            </li>
+        </ul>
+        
+        <div class="slds-form-element">
+            <abbr class="slds-required" title="required">* </abbr>
+            <label class="slds-form-element__label" for="combobox-id-1">Trade Marketing Agreement Promotion</label>
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container">
+                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                        <aura:if isTrue="{!v.displayPill}">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id-5" aria-controls="listbox-id-5" autoComplete="off" role="textbox" placeholder="Select an Option" readonly="" value="{!v.promotion.Name}" />
+                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="Remove selected option" onclick="{!c.clearLookup}">
+                                    <lightning:icon iconName="utility:close" alternativeText="Clear" title="Clear" size="x-small"/>
+                                    <span class="slds-assistive-text">Remove selected option</span>
+                                </button>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <ui:inputText click="{!c.lookupFocus}" value="{!v.searchName}" updateOn="keyup" keyup="{!c.getPromotions}" class="slds-input slds-combobox__input" placeholder="Search..." />
+                                    <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                        <lightning:icon iconName="utility:search" alternativeText="Search" title="Search" size="x-small"/>
+                                    </span>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        
+                        <div id="listbox-id-1" aura:id="lookupResult" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <aura:iteration items="{!v.promotions}" var="promo" indexVar="index">
+                                    <li role="presentation" class="slds-listbox__item">
+                                        <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <span class="slds-icon_container slds-icon-standard-account">
+                                                </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity" data-index="{!index}" onclick="{!c.selectPromotion}">{!promo.Name}</span>
+                                                <!-- span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{!promo.Maximum_Allowance_Rate__c} • {!promo.Maximum_Brand_Selections__c}</span -->
+                                            </span>
+                                        </div>
+                                    </li>
+                                </aura:iteration>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered selectedBrandsTable">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Brand">Brand</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Brand Description">Brand Description</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title=""></div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Allowance Rate">Allowance Rate</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.lineItems}" var="lineItem" indexVar="index">
+                    <tr class="slds-hint-parent">
+                        <td data-label="Brand">
+                            <div class="slds-truncate" title="{!lineItem.Product_Brand__r.Name}">{!lineItem.Product_Brand__r.Name}</div>
+                        </td>
+                        <td data-label="Brand Description">
+                            <div class="slds-truncate" title="{!lineItem.Product_Brand__r.Description__c}">{!lineItem.Product_Brand__r.Description__c}</div>
+                        </td>
+                        <td data-label="Delete">
+                            <div class="slds-truncate" title="Delete">
+                                <a href="javascript:void(0);" tabindex="-1" data-index="{!index}" onclick="{!c.deleteLineItem}">Delete</a>
+                            </div>
+                        </td>
+                        <td data-label="Allowance Rate">
+                            <div class="slds-truncate" title="{!lineItem.Allowance_Rate__c}">
+                                <lightning:input type="number" step="0.01" name="input1" value="{!lineItem.Allowance_Rate__c}" />
+                            </div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+        
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered selectBrandsTable">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Select Brands">Select Brands</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Brand Name">Brand Name</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.productBrands}" var="productBrand" indexVar="index">
+                    <tr class="slds-hint-parent">
+                        <td class="slds-text-align_right" role="gridcell">
+                            <div class="slds-checkbox">
+                                <ui:inputCheckbox updateOn="change" value="{!productBrand.isSelected}"/>
+                            </div>
+                        </td>
+                        <td data-label="Brand Name">
+                            <div class="slds-truncate" title="{!productBrand.productBrand.Name}">{!productBrand.productBrand.Name}</div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+</aura:component>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Request Ticket</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Request Tickets</value>
+    </caseValues>
+    <layouts>
+        <layout>Case Other Layout</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Case Promotional Request Layout</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- NewChildCase --></label>
+        <name>NewChildCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Email --></label>
+        <name>Send_Email</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- MR - Other --></label>
+        <name>MR_Other</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- MR - POS Request --></label>
+        <name>MR_POS_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- MR - Promotional Request --></label>
+        <name>MR_Promotional_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- MR - Rebate Request --></label>
+        <name>MR_Rebate_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Request Ticket --></label>
+        <name>Request_Ticket</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Return Form --></label>
+        <name>Return_Form</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Email_Notification --></label>
+        <name>Email_Notification</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Email --></label>
+        <name>Send_Email</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Email_To_Customer --></label>
+        <name>Send_Email_To_Customer</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_mail --></label>
+        <name>Send_mail</name>
+    </webLinks>
+</CustomObjectTranslation>

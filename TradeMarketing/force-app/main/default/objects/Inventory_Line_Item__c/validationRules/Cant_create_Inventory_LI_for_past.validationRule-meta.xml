@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cant_create_Inventory_LI_for_past</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(AND(Inventory__r.Visit_Date__c &lt; Today(), ISNEW(), $User.ProfileId != &apos;00ef4000000ELT6&apos;))</errorConditionFormula>
+    <errorMessage>You can&apos;t create Inventory Line Item if inventory in the past.</errorMessage>
+</ValidationRule>

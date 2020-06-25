@@ -1,0 +1,2 @@
+<apex:page standardController="Case" extensions="RG_RequestFormEmailAlertCls" action="{!sendMailToKevinOnCase}">
+</apex:page>

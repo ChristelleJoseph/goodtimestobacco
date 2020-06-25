@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Percentage__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(OR(OR(ISPICKVAL(Return_Code__c, &quot;Damaged&quot;),ISPICKVAL(Return_Code__c, &quot;Incorrect Item&quot;)), ISPICKVAL(Return_Code__c, &quot;Retail&quot;)), 1, IF(Age__c&gt;730, 0, IF(Age__c&gt;365, 0.5, 1)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Return Percentage</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

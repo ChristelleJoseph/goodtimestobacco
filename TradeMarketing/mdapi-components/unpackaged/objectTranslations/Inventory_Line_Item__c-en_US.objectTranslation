@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Inventory Line Item</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Inventory Line Items</value>
+    </caseValues>
+    <fields>
+        <label><!-- Account --></label>
+        <name>Account__c</name>
+        <relationshipLabel><!-- Inventory Line Items --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Age --></label>
+        <name>Age__c</name>
+    </fields>
+    <fields>
+        <label><!-- Age at replenishment --></label>
+        <name>Age_at_replenishment__c</name>
+    </fields>
+    <fields>
+        <label><!-- Brand --></label>
+        <name>Brand__c</name>
+    </fields>
+    <fields>
+        <label><!-- Inventory --></label>
+        <name>Inventory__c</name>
+        <relationshipLabel><!-- Inventory Line Items --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Previous Quantity --></label>
+        <name>PreviousQuantity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product Date Code --></label>
+        <name>ProductDateCode__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product Number --></label>
+        <name>Product_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product --></label>
+        <name>Product__c</name>
+        <relationshipLabel><!-- Inventory Line Items --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Product description --></label>
+        <name>Product_description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Quantity --></label>
+        <name>Quantity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Resale Price --></label>
+        <name>ResalePrice__c</name>
+    </fields>
+    <fields>
+        <label><!-- Whole Sale Margin --></label>
+        <name>WholeSaleMargin__c</name>
+    </fields>
+    <fields>
+        <label><!-- Whole Sale --></label>
+        <name>WholeSale__c</name>
+    </fields>
+    <layouts>
+        <layout>Inventory Line Item Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You can&apos;t create Inventory Line Item if inventory in the past. --></errorMessage>
+        <name>Cant_create_Inventory_LI_for_past</name>
+    </validationRules>
+</CustomObjectTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Count of the total number of pouches (or loose sticks) that are in the return line item. --></help>
+    <label><!-- Pouches --></label>
+    <name>Pouches__c</name>
+</CustomFieldTranslation>

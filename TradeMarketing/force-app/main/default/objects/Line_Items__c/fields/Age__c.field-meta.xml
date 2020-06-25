@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Age__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ABS(Product_Date__c - TODAY()) &lt;= 365,IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==1,TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot;        &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20), 
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==2,TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot;      &quot;&amp;  IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==3,TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot;    &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==4,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;  &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20),TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot; &quot;&amp; IMAGE(&quot;/resource/1537972112000/Green&quot;,&quot;Green&quot;,15,20))))),
+
+IF(ABS(Product_Date__c - TODAY()) &gt; 365 &amp;&amp; ABS(Product_Date__c - TODAY()) &lt; 730,IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==1,TEXT(Product_Date__c - TODAY()) &amp;&quot;        &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==2,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;      &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==3,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;    &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==4,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;  &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20),TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot; &quot;&amp;  IMAGE(&quot;/resource/1537972152000/Yellow&quot;,&quot;Yellow&quot;,15,20))))),
+
+IF(ABS(ABS(Product_Date__c - TODAY())) &gt;= 730,IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==1,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;        &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20), 
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==2,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;      &quot;&amp; IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==3,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;    &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20),
+
+IF(LEN(TEXT(ABS(Product_Date__c - TODAY())))==4,TEXT(ABS(Product_Date__c - TODAY())) &amp;&quot;  &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20),TEXT(ABS(Product_Date__c - TODAY()))&amp;&quot; &quot;&amp;  IMAGE(&quot;/resource/1537972132000/Red&quot;,&quot;Red&quot;,15,20))))),NULL) ))</formula>
+    <label>Age</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

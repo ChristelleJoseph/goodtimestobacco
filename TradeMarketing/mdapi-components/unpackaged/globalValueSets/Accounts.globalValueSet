@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ABC</fullName>
+        <default>false</default>
+        <label>ABC</label>
+    </customValue>
+    <customValue>
+        <fullName>Basik Trading</fullName>
+        <default>false</default>
+        <label>Basik Trading</label>
+    </customValue>
+    <customValue>
+        <fullName>Colonial</fullName>
+        <default>false</default>
+        <label>Colonial</label>
+    </customValue>
+    <masterLabel>Accounts</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

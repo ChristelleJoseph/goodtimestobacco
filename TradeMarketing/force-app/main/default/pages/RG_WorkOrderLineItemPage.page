@@ -1,0 +1,316 @@
+<apex:page standardController="WorkOrder" extensions="RG_WorkOrderLineItemCls" docType="html-5.0">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+<apex:pageMessages />
+<style>
+    .dateFormat {
+        display:none;
+    }
+    
+    .dateOnlyInput input{
+        display:block;
+    }
+     .myClass{
+        width:50px;
+        height:30px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        vertical-align: middle;
+        color:white !important;
+        background:#0070d2 !important;
+      }
+</style>
+<script type="text/javascript">
+        function jsfind()
+        {
+            updateProductList();
+        }
+         function SaveOnClick (objSaveBtn)
+        {
+             objSaveBtn.disabled = true;
+             objSaveBtn.value = 'Saving...';
+             doSubmit();
+        }
+    </script>
+    
+<apex:form >
+<meta charset="utf-8"/>
+<meta http-eqv="x-ua-campatible" content="ie-edge"/>
+<meta name="viewport" content="width=device-width, intial-scale=1"/>
+<apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}"/>
+
+
+ <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js"/>
+ <apex:includeScript value="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"/>
+ <apex:includeScript value="https://www.datatables.net/release-datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js"/>
+ <apex:stylesheet value="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.css"/>
+ <apex:stylesheet value="https://www.datatables.net/release-datatables/extensions/FixedColumns/css/dataTables.fixedColumns.css"/>
+  
+  <apex:outputPanel id="tbb1">
+  <script>
+        j$ = jQuery.noConflict();
+        j$(document).ready(function() {
+
+           j$('[id$="productSearchTable"]').DataTable({
+                "searching": false,
+                "paging":true,
+                "destroy" : true, 
+                "autoWidth" : true,
+                "order": [[ 3, "desc" ]],   
+            });    
+        });
+    
+    </script>
+</apex:outputPanel>
+
+
+
+<apex:actionFunction Name="updateProductList" action="{!prodListActionFunction}" rerender="productpanel,tbb1" />
+<apex:actionStatus id="status">
+            <apex:facet name="start">
+            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index: 1000; background-color: black;">
+                &nbsp;
+            </div>
+            <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/Cursor_Windows_Vista.gif" />
+            </div>
+            </apex:facet>
+</apex:actionStatus>
+<!--<apex:actionfunction Name="update1" action="{!updateLineItem}" rerender="opanel"/>-->
+
+<apex:outputPanel id="opanel" layout="block" style="overflow:auto;width:100%;height:50%;">
+    
+<div class="slds-page-header">
+  <div class="slds-media">
+    <div class="slds-media__figure">
+      <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+        <svg class="slds-icon" aria-hidden="true">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+        </svg>
+      </span>
+    </div>
+    <div class="slds-media__body">
+      <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Rohde Corp - 80,000 Widgets">Work Order Line Item</h1>
+      <p class="slds-text-body_small slds-line-height_reset">Work Order</p>
+    </div>
+    
+    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+  <!--<div class="slds-button-group" role="group">-->
+    <apex:commandlink Styleclass="slds-button slds-button_stateful slds-not-selected slds-button_brand" value="Add Line Item" action="{!AddOrderLineItem}" />&nbsp;
+    <apex:commandlink Styleclass="slds-button slds-button_stateful slds-not-selected slds-button_brand" value="Save" action="{!updateLineItem}" />
+      
+    
+    <!--<button class="slds-button slds-button--neutral">
+      More
+    </button>-->
+  <!--</div>-->
+</div>
+
+  <!-- <button class="slds-button slds-button_stateful slds-not-selected slds-button_brand" aria-live="assertive" >
+  <span class="slds-text-not-selected">
+    <svg class="slds-button__icon_stateful slds-button__icon_left" aria-hidden="true">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+    </svg>Add Line Item</span>
+    </button>
+    -->
+  </div>
+  
+</div>
+
+<!-- Table -->
+
+<table class="slds-table slds-table--bordered" >
+  <thead>
+      
+    <tr class="slds-text-heading--label">
+        <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Edit</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Name
+          <button class="slds-button slds-button--icon-bare">
+            <svg aria-hidden="true" class="slds-button__icon slds-button__icon--small">
+              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+            </svg>
+            <span class="slds-assistive-text">Sort</span>
+          </button>
+        </div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Product</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Product Description</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Quantity</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Expiration Date</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Discount</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Advertising Expense</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Booth Fee</div>
+      </th>
+      <th class="slds-cell-shrink"></th>
+    </tr>
+  </thead>
+    
+<tbody > 
+    <apex:variable var="index" value="{!1}"/>
+    <apex:repeat value="{!WrapperList}" var="WorkOder">
+        <tr class="slds-hint-parent">
+            <th class="slds-truncate" scope="row" data-label="del">
+              <apex:commandLink value="Edit" action="{!EditOrderLineItem}" status="status" rendered="{!WorkOder.WorkLItem.id!=Null}" >
+                    <apex:param name="EditOrderLineItemId" value="{!WorkOder.WorkLItem.id}" assignTo="{!EditOrderId}"/>
+              </apex:commandLink>&nbsp;&nbsp;&nbsp;&nbsp;
+              <apex:commandLink value="Del" action="{!deleteOrderLineItem}" rendered="{!WorkOder.WorkLItem.id!=Null}">
+                    <apex:param name="EditOrderLineItemId" value="{!WorkOder.WorkLItem.id}" assignTo="{!EditOrderId}"/>
+                    <apex:param name="DeleteOrderLineItem" value="{!index}" assignTo="{!IndexNum}"/>
+              </apex:commandLink>
+              <apex:variable var="index" value="{!index+1}"/>
+          </th>  
+            <td class="" data-label="LineItemNumber">
+                <apex:outputtext value="{!WorkOder.WorkLItem.LineItemNumber}"/>
+            </td> 
+            <td class="" data-label="PricebookEntryName">
+                <apex:outputtext value="{!WorkOder.WorkLItem.PricebookEntry.Name}" rendered="{!!WorkOder.EditBoolean}" />
+                <apex:inputField value="{!WorkOder.WorkLItem.Product2Id}" rendered="{!WorkOder.EditBoolean}" /> 
+            </td>
+            <td class="" data-label="ProdDescription">
+                <apex:outputText value="{!WorkOder.WorkLItem.Product_Description__c}" />
+            </td>
+            <td class="" data-label="Qunatity">
+                <apex:outputText value="{!WorkOder.WorkLItem.Quantity}" rendered="{!!WorkOder.EditBoolean}"/>
+                <apex:inputText value="{!WorkOder.WorkLItem.Quantity}" rendered="{!WorkOder.EditBoolean}" />
+            </td>
+            <td class="" data-label="Expiration Date">
+                <apex:outputText value="{0,date,MM/dd/yy}" rendered="{!!WorkOder.EditBoolean}"> 
+                    <apex:param value="{!WorkOder.WorkLItem.Expiration_Date__c}" /> 
+                </apex:outputText>
+               
+               <!-- <apex:outputText value="{!WorkOder.WorkLItem.Expiration_Date__c}" rendered="{!!WorkOder.EditBoolean}"/>-->
+                <apex:inputField styleClass="dateFormat" value="{!WorkOder.WorkLItem.Expiration_Date__c}" rendered="{!WorkOder.EditBoolean}" />
+            </td>
+            <td class="" data-label="Discount">
+                <apex:outputText value="{!WorkOder.WorkLItem.Discount}" rendered="{!!WorkOder.EditBoolean}"/>
+                <apex:inputField value="{!WorkOder.WorkLItem.Discount}" rendered="{!WorkOder.EditBoolean}" />
+            </td>
+            <td class="" data-label="AdvertisingExpense">
+                <apex:outputText value="{!WorkOder.WorkLItem.AdvertisingExpense__c}" rendered="{!!WorkOder.EditBoolean}"/>
+                <apex:inputField value="{!WorkOder.WorkLItem.AdvertisingExpense__c}" rendered="{!WorkOder.EditBoolean}" />
+            </td>
+            <td class="" data-label="BoothFee">
+                <apex:outputText value="{!WorkOder.WorkLItem.BoothFee__c}" rendered="{!!WorkOder.EditBoolean}"/>
+                <apex:inputField value="{!WorkOder.WorkLItem.BoothFee__c}" rendered="{!WorkOder.EditBoolean}" />
+            </td>
+        </tr>        
+    </apex:repeat>
+</tbody>
+    
+</table>
+
+<!-- {!workOrderLineItemList.SIZE}{!Now()}-->
+</apex:outputPanel>
+
+<apex:outputPanel id="popidd" rendered="{!popupRendered}">
+    <div class="demo-only" style="height: 640px;">
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+          <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+          </svg>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Product Search</h2>
+        <p class="slds-m-top_x-small" >
+        <div class="slds-form-element">
+  <!-- <label class="slds-form-element__label" for="text-input-id-1">Input Label</label>-->
+  <div class="slds-form-element__control">
+      <apex:outputPanel id="productNamePanel">
+    <apex:inputtext id="text-input-id-1" styleclass="slds-input" html-placeholder="Product Name" value="{!productName}" onkeydown="jsfind()"/>
+    </apex:outputPanel>
+  </div>
+</div>
+
+        </p>
+      </header>
+      
+      <apex:outputPanel id="productpanel">
+      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <!-- Product Table START-->
+          <div class="slds-scrollable--y" style="overflow-y:scroll; height:470px;">
+              
+              
+          <table class="slds-table slds-table--bordered" Id="productSearchTable" >
+  <thead>
+      
+    <tr class="slds-text-heading--label">
+        <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Select</div>
+      </th> 
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Product</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Product Description</div>
+      </th>
+      <th class="slds-is-sortable" scope="col">
+        <div class="slds-truncate">Quantity</div>
+      </th>
+      <!--<th class="slds-cell-shrink"></th>-->
+    </tr>
+  </thead>
+    
+<tbody > 
+    <apex:variable var="index" value="{!1}"/>
+    <apex:repeat value="{!productWrapperList}" var="productWrapper">
+        <tr class="slds-hint-parent">
+            
+            <th class="slds-truncate" scope="row" data-label="del">
+             <apex:inputCheckbox value="{!productWrapper.selectproduct}"/> 
+          </th>  
+            <td class="" data-label="Product">
+                <apex:outputtext value="{!productWrapper.product.Name}" />
+                 
+            </td>
+            <td class="" data-label="ProdDescription">
+                <apex:outputText value="{!productWrapper.product.Description}" />
+            </td>
+            <td class="" data-label="ProdQuantity">
+                <apex:inputtext value="{!productWrapper.quantity}" />
+            </td>
+        </tr>        
+            </apex:repeat>
+        </tbody>
+            
+        </table>
+      
+        </div>
+        <!-- pRODUCT TABLE END -->
+
+      </div>
+        </apex:outputPanel>
+        <apex:actionFunction name="doSubmit" action="{!savebtn}" />
+      <footer class="slds-modal__footer">
+        <apex:commandlink styleclass="slds-button slds-button_neutral" value="Cancel" action="{!cancelbtn}"/>
+        <apex:commandButton styleclass="myClass"  value="Save" id="Sv" onClick="SaveOnClick(this);" />
+        <!--<apex:commandlink styleclass="slds-button slds-button_brand" value="Save" action="{!savebtn}" />-->
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</div>
+</apex:outputPanel>
+
+
+</apex:form>
+</html>
+</apex:page>

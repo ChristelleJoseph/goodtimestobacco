@@ -1,0 +1,369 @@
+<apex:page controller="RG_InventoriesHistoryCls" action="{!deleteInvalidLineItems}" showHeader="true" sideBar="false" lightningStylesheets="true">
+    <style>
+        .quantity{
+            border-left-width: 1px;
+            border-color: #54698d;
+            border-style: solid;
+            border-right-width: 0px;
+            border-bottom-width: 0px;
+            border-top-width: 0px;
+
+        }
+
+        .slds-button_neutral {
+            height: 30px !important;
+            margin-left: 10px !important;
+        }
+
+        html{
+            background: #f8f8f8;
+        }
+
+        body{
+            background: transparent !important;
+
+        }
+
+        #ControlOutter{
+    
+            position: relative;
+            width: 94vw;
+            margin: 3vw;
+            background: #ffffff;
+        }
+        
+        .btnSearch{
+            margin-top: 10px;
+        }
+
+        .searchResultsTable{
+            font-size: 18px;
+        }
+
+        .requestItemCheckBox {
+            height:25px !important;
+            width: 25px !important;
+            margin-left: 35%;
+            margin: 5px;
+        }
+        .requestItemCheckBox:checked{
+            background-color: green !important;
+        }
+
+        .matchRequestButton{
+            margin-top:20px !important;
+        }
+
+        .bPageBlock {
+            border-top: 4px solid #d6daf7;
+        }
+
+        .input{
+            margin-left: 5px !important;
+            vertical-align: middle !important;
+        }
+
+        .lookupInput{
+            width: 100%;
+            
+        }
+
+        .slds-p-around_medium, .slds-p-around--medium {
+            padding: 1rem;
+            width: 100%;
+            min-width: 1000px;
+        }
+
+        #divDebugPanel{
+            
+        }
+
+        #searchProductTable{
+            font-size: x-small;
+        }
+    </style>
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}"/>
+    <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <apex:form >
+        <apex:sectionHeader title="" subtitle="Inventories Report"/>
+        <div class="ptBreadcrumb" style="padding-bottom: 25px;">&nbsp;«&nbsp;<a href="/{!accountId}">Back to Account</a></div>
+        <apex:pageMessages id="errors" />
+        
+        <apex:actionFunction name="addLI" action="{!addLineItem}" rerender="select_list, modal-content-id-1, errors, results,debug,errors">
+                <apex:param name="selectedItems" assignTo="{!selectedList}" value="" />
+        </apex:actionFunction>
+        
+        <apex:outputtext style="font-size: 1.083em; color: #353535; font-weight: bold;" value="View Last: "/>
+        <apex:selectList styleClass="slds-select" label="View Last" value="{!countOfMonth}" size="1" style="width:200px" id="select_list">
+            <apex:selectOption itemValue="1" itemLabel="1 Inventory"/>
+            <apex:selectOption itemValue="2" itemLabel="2 Inventories"/>
+            <apex:selectOption itemValue="3" itemLabel="3 Inventories"/>
+            <apex:selectOption itemValue="4" itemLabel="4 Inventories"/>
+            <apex:actionSupport event="onchange" action="{!refreshInventoryDTOs}" rerender="select_list, modal-content-id-1"/>
+        </apex:selectList>
+
+        <apex:commandButton styleClass="slds-button_neutral" value="New Inventory" action="{!newInventory}"/>
+        <apex:commandButton styleClass="slds-button_neutral" value="Save Changes" action="{!saveChanges}"/>
+        <apex:commandButton styleClass="slds-button_neutral" value="Add Line Items" onclick="addLineItem(); return false;"/>
+
+
+        <apex:outputPanel layout="block" styleClass="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+            <div class="slds-scrollable--y" style="overflow-y:scroll; height:100%" >
+                <table class="slds-table slds-table--bordered tablesorter " id="searchProductTable" >
+                    <thead>
+                    <tr class="slds-text-heading--label">
+                        <th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate"></div>
+                        </th>
+                        <th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate"></div>
+                        </th>
+                        <th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate"></div>
+                        </th>
+                        <apex:repeat value="{!inventories}" var="inventory">
+                            <th class="slds-is-sortable quantity" scope="col">
+                                <div class="slds-truncate"></div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate"></div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate"> <apex:outputfield value="{!inventory.Visit_Date__c}"/></div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate"></div>
+                            </th>
+                        </apex:repeat>
+                    </tr>
+                    </thead>
+                    <thead>
+                    <tr class="slds-text-heading--label">
+                        <th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate">Brand</div>
+                        </th>
+                        <th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate">Item#</div>
+                        </th>
+                        <th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate">Item Description</div>
+                        </th>
+                        <apex:repeat value="{!inventories}" var="inventory">
+                            <th class="slds-is-sortable quantity" scope="col">
+                                <div class="slds-truncate"></div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">QTY</div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Product Date</div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">AGE</div>
+                            </th>
+                        </apex:repeat>
+                    </tr>
+                    </thead>
+
+                    <tbody >
+                        <apex:repeat value="{!InventoryDTOs}" var="InventoryDTO">
+                            <tr class="slds-hint-parent">
+                                <td class="slds-truncate" scope="row" data-label="del">
+                                    <apex:outputtext value="{!InventoryDTO.brand}"/>
+
+                                </td>
+                                <td class="" data-label="Product">
+                                    <apex:outputtext value="{!InventoryDTO.productNumber}" />
+                                    <apex:outputtext value="{!InventoryDTO.invLI[lastInventory].Product_Number__c}" rendered="{!InventoryDTO.isNew}" style="width: 100%"/>
+                                </td>
+                                <td class="" data-label="ProductCode">
+                                    <apex:outputtext value="{!InventoryDTO.productDescription}" />
+                                    <apex:inputField value="{!InventoryDTO.invLI[lastInventory].Product__c}" rendered="{!InventoryDTO.isNew}" style="width: 100%"/>
+                                </td>
+                                <apex:repeat value="{!inventories}" var="inventory">
+                                    <td class="quantity delete-btn" id="{!InventoryDTO.invLI[inventory.id].Id}" >
+                                        <apex:commandLink action="{!createDeletionRequest}"  value="Delete" rendered="{!AND(InventoryDTO.invLI[inventory.id].Id != NULL, inventory.Visit_Date__c >= TODAY(),userProfileName == 'System Administrator')}">
+                                            <apex:param name="iliId" value="{!InventoryDTO.invLI[inventory.id].Id}"  assignTo="{!deleteItemId}"/>
+                                        </apex:commandLink>
+                                    </td>
+                                    <td class="" >
+                                        <apex:outputtext value="{!InventoryDTO.invLI[inventory.id].Quantity__c}" rendered="{!NOT(inventory.Visit_Date__c >= TODAY())}"/>
+                                        <apex:inputfield value="{!InventoryDTO.invLI[inventory.id].Quantity__c}" rendered="{!AND(OR(InventoryDTO.isNew, InventoryDTO.invLI[inventory.id].Id != NULL), inventory.Visit_Date__c >= TODAY())}" style="width : 6em"/>
+                                    </td>
+                                    <td class="" data-label="ProductCategory">
+                                        <apex:outputfield value="{!InventoryDTO.invLI[inventory.id].ProductDateCode__c}" rendered="{!NOT(inventory.Visit_Date__c >= TODAY())}"/>
+                                        <apex:inputfield value="{!InventoryDTO.invLI[inventory.id].ProductDateCode__c}" rendered="{!AND(OR(InventoryDTO.isNew, InventoryDTO.invLI[inventory.id].Id != NULL), inventory.Visit_Date__c >= TODAY())}"/>
+                                    </td>
+                                    <td class="product-age" data-label="ProdDescription">
+                                        <apex:outputtext value="{!InventoryDTO.invLI[inventory.id].Age__c}" />
+                                    </td>
+                                </apex:repeat>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </div>
+            <script>
+                j$ = jQuery.noConflict();
+                j$.each(j$('.product-age'), function(index, element) {
+                    var ageCount = j$(element).text();
+                    if (ageCount > 0 && ageCount < 183) {
+                        j$(element).css('backgroundColor', '#b6fbb6');
+                    } else if (ageCount > 182 && ageCount < 281) {
+                        j$(element).css('backgroundColor', '#f9f988');
+                    } else if (ageCount > 281) {
+                        j$(element).css('backgroundColor', '#f97272');
+                    }
+                });
+            </script>
+        </apex:outputPanel>
+    </apex:form>
+
+    <apex:form >
+        <!--<apex:pageMessages id="errors" />-->
+            <table width="100%" border="0" class="searchResultsTable">
+            <tr>  
+              <td width="200" valign="top" style="padding-right: 5px;">
+                <apex:pageBlock title="Search" mode="edit" id="criteria">
+    
+      
+                <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors">
+                    <apex:param name="searchVal" value="" />
+                </apex:actionFunction>
+      
+                <table cellpadding="2" cellspacing="2">
+                  <tr>
+                    <td style="font-weight:bold;">Line Item Name<br/>
+                      <input type="text" id="searchVal" value=" "/>
+                    </td>
+                  </tr>
+                  <tr>
+                      <td>
+                        <br/>
+                        <apex:commandButton value="Search" styleClass="slds-button_neutral"  onclick="search(); return false;" reRender="none" ></apex:commandButton>
+                        <apex:commandButton value="Clear Selections" styleClass="slds-button_neutral" onclick="clearFrontendSelections(); return false;" ></apex:commandButton>        
+                      </td>
+                  </tr>
+                </table>
+
+                <br/>
+                <p style="font-weight:bold; font-size:9px;">*Note that all searches only return products with item status 1 or 2.</p>
+                </apex:pageBlock>
+              </td>
+      
+              <td valign="top" >
+              <apex:pageBlock mode="edit" id="results" >
+      
+                  <apex:pageBlockTable value="{!prodList}" var="prod">
+                      <apex:column >
+                          <apex:facet name="header">
+                            <apex:outputText value="Select Items" /> 
+                          </apex:facet>
+                            <input type="text" id="matchId{!prod.wrappedProd.Id}" value="{!prod.wrappedProd.Id}" style="display:none;"  />
+                            <input type="checkbox" id="prodSelectState{!prod.wrappedProd.Id}"  onclick="recordSelection('{!prod.wrappedProd.Id}'); return null;" class="requestItemCheckBox"/>
+                      </apex:column>
+      
+                      <apex:column >
+                          <apex:facet name="header">
+                              <apex:commandLink value="Inventory Line Item Description" action="{!toggleSort}" rerender="results,debug">
+                                  <apex:param name="sortField" value="Name" assignTo="{!sortField}"/>
+                              </apex:commandLink>
+                          </apex:facet>
+                          <apex:outputText value="{!prod.wrappedProd.Name}" style="font-size:13px" />
+                      </apex:column>
+      
+                      <apex:column >
+                          <apex:facet name="header">
+                              <apex:commandLink value="Item Number" action="{!toggleSort}" rerender="results,debug">
+                                  <apex:param name="sortField" value="ProductCode" assignTo="{!sortField}"/>
+                              </apex:commandLink>
+                          </apex:facet>
+                          <apex:outputText value="{!prod.wrappedProd.ProductCode}" style="font-size:13px" />
+                      </apex:column>
+                  </apex:pageBlockTable>
+              </apex:pageBlock>
+      
+              </td>
+            </tr>
+            </table>
+            <!--
+            <div id="divDebugPanel">
+              <apex:pageBlock title="Debug - SOQL" id="debug" >
+                  <apex:outputText value="{!debugSoql}" />           
+              </apex:pageBlock>    
+      
+              <apex:pageBlock title="Debug - String Parsing" id="debug2">
+                  <apex:outputText value="{!debugLog}" />           
+              </apex:pageBlock>
+            </div> -->
+        </apex:form>
+
+
+        <script type="text/javascript">
+            var listOfSelected = "";
+            var selectedArray = [];
+
+            function search() {
+                clearFrontendSelections();
+
+                searchServer(
+                    document.getElementById("searchVal").value
+                );
+                return null;
+            }
+
+            function recordSelection(prodId) { 
+                var prodId = document.getElementById("matchId"+prodId).value;
+                var selectedState = document.getElementById("prodSelectState"+prodId).checked;
+
+                selectedArray.push(document.getElementById("matchId"+prodId).value);
+
+                //debug
+                //console.log("recordSelection - recorded selection: " + prodId + "  prodSelectState.checked: " + selectedState );
+                
+                listOfSelected+="" + prodId +","+ selectedState + ",";
+
+                return false;
+
+            }
+
+            function addLineItem(){
+            
+                var str = listOfSelected.slice(0, -1);
+                addLI(str);
+
+                //debug
+                console.log("addLineItem - list of selected submitted: " + str);
+                
+                clearFrontendSelections();
+                return false;
+            }
+
+            function clearFrontendSelections(){
+                var i;
+                for(i=0; i<selectedArray.length; i++){
+                    document.getElementById("prodSelectState"+selectedArray[i]).checked = false;
+                }
+
+                listOfSelected='';
+                selectedArray = [];
+                //debug
+                //console.log("clearFrontendSelections executed " );
+                return false;
+            }
+
+            document.getElementById('searchVal').onkeypress = function(e){
+                if (e.keyCode == '13'){
+                    search();
+                    return false;
+                }
+            }
+
+        </script> 
+</apex:page>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Return</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Returns</value>
+    </caseValues>
+    <fields>
+        <label><!-- Account GP Number --></label>
+        <name>Account_GP_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Account --></label>
+        <name>Account__c</name>
+        <relationshipLabel><!-- Returns --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Additional Notes --></label>
+        <name>Additional_Notes__c</name>
+    </fields>
+    <fields>
+        <label><!-- External Inventory User --></label>
+        <name>External_Inventory_User__c</name>
+    </fields>
+    <fields>
+        <label><!-- Initiated Date --></label>
+        <name>Initiated_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Initiator Analyst --></label>
+        <name>Initiator_Analyst__c</name>
+        <relationshipLabel><!-- Returns (Initiator Analyst) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Initiator Supervisor 1 --></label>
+        <name>Initiator_Supervisor_1__c</name>
+        <relationshipLabel><!-- Returns (Initiator Supervisor 1) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Initiator Supervisor 2 --></label>
+        <name>Initiator_Supervisor_2__c</name>
+        <relationshipLabel><!-- Returns (Initiator Supervisor 2) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Initiator Supervisor 3 --></label>
+        <name>Initiator_Supervisor_3__c</name>
+        <relationshipLabel><!-- Returns (Initiator Supervisor 3) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Initiator Supervisor 4 --></label>
+        <name>Initiator_Supervisor_4__c</name>
+        <relationshipLabel><!-- Returns (Initiator Supervisor 4) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Initiator --></label>
+        <name>Initiator__c</name>
+        <relationshipLabel><!-- Returns (Initiator) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Pallets --></label>
+        <name>Pallets__c</name>
+    </fields>
+    <fields>
+        <label><!-- Return Form --></label>
+        <name>Return_Form__c</name>
+    </fields>
+    <fields>
+        <label><!-- Return Number --></label>
+        <name>Return_Number_Title__c</name>
+    </fields>
+    <fields>
+        <label><!-- Stage --></label>
+        <name>Stage__c</name>
+        <picklistValues>
+            <masterLabel>Draft</masterLabel>
+            <translation><!-- Draft --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Processed</masterLabel>
+            <translation><!-- Processed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Submitted</masterLabel>
+            <translation><!-- Submitted --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Withdrawn</masterLabel>
+            <translation><!-- Withdrawn --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Indicates the day that the return was submitted for processing by the inventory team. --></help>
+        <label><!-- Submitted Date --></label>
+        <name>Submitted_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Displays --></label>
+        <name>Total_Displays__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Pouches --></label>
+        <name>Total_Pouches__c</name>
+    </fields>
+    <fields>
+        <label><!-- Tracking Number --></label>
+        <name>Tracking_Number__c</name>
+    </fields>
+    <layouts>
+        <layout>Return Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Edit_Return --></label>
+        <name>Edit_Return</name>
+    </webLinks>
+</CustomObjectTranslation>

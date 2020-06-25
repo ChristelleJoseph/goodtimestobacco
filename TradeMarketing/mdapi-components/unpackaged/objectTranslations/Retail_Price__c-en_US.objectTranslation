@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Retail Price</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Retail Prices</value>
+    </caseValues>
+    <fields>
+        <label><!-- Price --></label>
+        <name>Price__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product Brand --></label>
+        <name>Product_Brand__c</name>
+        <relationshipLabel><!-- Retail Prices --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Retail Price Archive --></label>
+        <name>Retail_Price_Archive__c</name>
+        <relationshipLabel><!-- Retail Prices --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Sale Price --></label>
+        <name>Sale_Price__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

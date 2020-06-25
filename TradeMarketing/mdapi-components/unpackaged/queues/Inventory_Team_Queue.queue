@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>Inventory Team Queue</name>
+    <queueMembers>
+        <users>
+            <user>abram.jacobson@goodtimestobacco.com</user>
+            <user>joseph@goodtimestobacco.com</user>
+            <user>mark.crawford@emberrock.com</user>
+            <user>tim.nickel@goodtimestobacco.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Return__c</sobjectType>
+    </queueSobject>
+</Queue>

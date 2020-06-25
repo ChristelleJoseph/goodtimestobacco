@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Account Manager Incentive</fullName>
+        <default>false</default>
+        <label>Account Manager Incentive</label>
+    </customValue>
+    <customValue>
+        <fullName>Buy Down</fullName>
+        <default>false</default>
+        <label>Buy Down</label>
+    </customValue>
+    <customValue>
+        <fullName>Chain Placement Allowance</fullName>
+        <default>false</default>
+        <label>Chain Placement Allowance</label>
+    </customValue>
+    <customValue>
+        <fullName>Chain Rebate</fullName>
+        <default>false</default>
+        <label>Chain Rebate</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </customValue>
+    <customValue>
+        <fullName>POS</fullName>
+        <default>false</default>
+        <label>POS</label>
+    </customValue>
+    <customValue>
+        <fullName>Promotion</fullName>
+        <default>false</default>
+        <label>Promotion</label>
+    </customValue>
+    <customValue>
+        <fullName>Return</fullName>
+        <default>false</default>
+        <label>Return</label>
+    </customValue>
+    <customValue>
+        <fullName>Tabletop</fullName>
+        <default>false</default>
+        <label>Tabletop</label>
+    </customValue>
+    <customValue>
+        <fullName>Tradeshow</fullName>
+        <default>false</default>
+        <label>Tradeshow</label>
+    </customValue>
+    <customValue>
+        <fullName>Transfer</fullName>
+        <default>false</default>
+        <label>Transfer</label>
+    </customValue>
+    <masterLabel>Request Ticket Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

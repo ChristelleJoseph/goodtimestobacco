@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>You_can_create_inventory_only_for_today</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(AND(Visit_Date__c &lt; Today(), ISNEW(), $User.ProfileId != &apos;00ef4000000ELT6&apos;),AND(ISCHANGED(Visit_Date__c),$User.ProfileId != &apos;00ef4000000ELT6&apos;))</errorConditionFormula>
+    <errorMessage>You can&apos;t create inventory for past</errorMessage>
+</ValidationRule>

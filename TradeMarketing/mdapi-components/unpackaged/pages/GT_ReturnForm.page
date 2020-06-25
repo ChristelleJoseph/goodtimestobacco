@@ -1,0 +1,684 @@
+<apex:page controller="GT_ReturnForm" action="{!onPageLoad}" showHeader="true" sideBar="false" lightningStylesheets="true">
+    <style>
+        .quantity {
+            border-left-width: 1px;
+            border-color: #54698d;
+            border-style: solid;
+            border-right-width: 0px;
+            border-bottom-width: 0px;
+            border-top-width: 0px;
+
+        }
+
+        .slds-button_neutral {
+            height: 30px !important;
+            margin-left: 10px !important;
+        }
+
+        html {
+            background: #f8f8f8;
+        }
+
+        body {
+            background: transparent !important;
+
+        }
+
+        #ControlOutter {
+
+            position: relative;
+            width: 94vw;
+            margin: 3vw;
+            background: #ffffff;
+        }
+
+        .btnSearch {
+            margin-top: 10px;
+        }
+
+        .searchResultsTable {
+            font-size: 18px;
+        }
+
+        .requestItemCheckBox {
+            height: 25px !important;
+            width: 25px !important;
+            margin-left: 35%;
+            margin: 5px;
+        }
+
+        .requestItemCheckBox:checked {
+            background-color: green !important;
+        }
+
+        .matchRequestButton {
+            margin-top: 20px !important;
+        }
+
+        .bPageBlock {
+            border-top: 4px solid #d6daf7;
+        }
+
+        .input {
+            margin-left: 5px !important;
+            vertical-align: middle !important;
+        }
+
+        .lookupInput {
+            width: 100%;
+
+        }
+
+        .slds-p-around_medium,
+        .slds-p-around--medium {
+            padding: 1rem;
+            width: 100%;
+            min-width: 1000px;
+        }
+
+        #divDebugPanel {}
+
+        #searchProductTable {
+            font-size: x-small;
+        }
+
+        .dateFormat {
+            visibility: hidden;
+            display: none;
+        }
+
+        .return-information {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .account-information {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .form-header-span {
+            font-weight: bold;
+        }
+
+        .center-wrapper {
+            text-align: center;
+        }
+
+        .buttons-panel {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        #table-footer-note {
+            font-weight: bold;
+            font-size: 9px;
+            margin: 5px;
+        }
+
+        .submitted-message {
+            font-weight: bold;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        #additional-notes {}
+    </style>
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}" />
+    <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <apex:form id="returnInputForm" onkeyup="submitListener(event)">
+
+        <apex:actionFunction name="onFormSubmit" action="{!saveReturn}" />
+
+        <div class="ptBreadcrumb" style="padding-bottom: 5px;">&nbsp;«&nbsp;
+            <a href="/{!currentAccount.Id}">Back to Account</a>
+        </div>
+        <apex:sectionHeader title="Return Form" subtitle="">
+
+        </apex:sectionHeader>
+        <div class="center-wrapper">
+            <apex:outputText styleClass="submitted-message" rendered="{!currentReturn.Stage__c == 'Submitted'}" value="This return has been submitted for processing, to make changes to this return please contact {!returnsOwner.OwnerName__c} at {!returnsOwner.Email__c}"></apex:outputText>
+            <apex:outputText styleClass="submitted-message" rendered="{!currentReturn.Stage__c == 'Processed'}" value="This return has been processed by the inventory team."></apex:outputText>
+            <apex:outputText styleClass="submitted-message" rendered="{!currentReturn.Stage__c == 'Withdrawn'}" value="This return has been withdrawn, it will not be processed. Please create a new return to initiate the return process for this account."></apex:outputText>
+            <apex:outputText styleClass="submitted-message" rendered="{!currentReturn.Stage__c == 'Fulfilled'}" value="This return has been fulfilled by the inventory team."></apex:outputText>
+        </div>
+
+        <apex:pageMessages id="errors" />
+
+        <apex:actionFunction name="addLI" action="{!addLineItem}" rerender="select_list, modal-content-id-1, errors, results,debug,errors">
+            <apex:param name="selectedItems" assignTo="{!selectedList}" value="" />
+        </apex:actionFunction>
+
+        <!--
+        <apex:outputtext style="font-size: 1.083em; color: #353535; font-weight: bold;" value="View Last: "/>
+        <apex:selectList styleClass="slds-select" label="View Last" value="{!countOfMonth}" size="1" style="width:200px" id="select_list">
+            <apex:selectOption itemValue="1" itemLabel="1 Return"/>
+            <apex:selectOption itemValue="2" itemLabel="2 Return"/>
+            <apex:selectOption itemValue="3" itemLabel="3 Return"/>
+            <apex:selectOption itemValue="4" itemLabel="4 Return"/>
+            <apex:actionSupport event="onchange" action="{!refreshReturnDTOs}" rerender="select_list, modal-content-id-1"/>
+        </apex:selectList>
+        -->
+        <div class="center-wrapper">
+            <div class="buttons-panel">
+                <apex:commandButton styleClass="slds-button_neutral" value="Submit Return" action="{!submitReturn}" rendered="{!currentReturn.Stage__c == 'Draft' && returnsAllowed == TRUE}"
+                />
+                <apex:commandButton styleClass="slds-button_neutral" value="New Return" action="{!newReturn}" rendered="{!returnsAllowed == TRUE}"
+                />
+                <apex:commandButton styleClass="slds-button_neutral" value="Save Changes" action="{!saveReturn}" rendered="{!currentReturn.Stage__c == 'Draft' && returnsAllowed == TRUE}"
+                />
+                <apex:commandButton styleClass="slds-button_neutral" value="Add Return Items" onclick="addLineItem(); return false;" rendered="{!currentReturn.Stage__c == 'Draft' && returnsAllowed == TRUE}"
+                />
+            </div>
+        </div>
+        <apex:outputPanel layout="block" styleClass="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+            <div class="return-information">
+                <div class="slds-scrollable--y" style="height:100%">
+                    <table class="slds-table slds-table--bordered tablesorter " id="searchProductTable" style="border: 0px;vertical-align: top;
+                    margin: 10px;">
+                        <thead>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Return Number:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="ReturnNumber">
+                                        <span>
+                                            <apex:inputfield value="{!currentReturn.Name}"></apex:inputfield>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Return Submitted Date:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="ReturnDate">
+                                        <span>
+                                            <apex:outputText value="{0, date, MMMM d','  yyyy}">
+                                                <apex:param value="{!currentReturn.Submitted_Date__c}" />
+                                            </apex:outputText>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Return Stage:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="ReturnStage">
+                                        <span>{!currentReturn.Stage__c}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Displays:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="BoxesPallets">
+                                        <span>
+                                            <apex:outputText value="{!currentReturn.Total_Displays__c}"></apex:outputText>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Pouches:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="BoxesPallets">
+                                        <span>
+                                            <apex:outputText value="{!currentReturn.Total_Pouches__c}"></apex:outputText>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Pallets:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="TotalPallets">
+                                        <span>
+                                            <!--<apex:inputfield value="{!currentReturn.Pallets__c}"></apex:inputfield>-->
+                                            <apex:inputfield value="{!currentReturn.Pallets__c}" rendered="{!currentReturn.Stage__c == 'Draft'}" style="width: 95%;"
+                                            />
+                                            <apex:outputtext value="{!currentReturn.Pallets__c}" rendered="{!currentReturn.Stage__c != 'Draft'}" style="width: 95%;"
+                                            />
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Additional Notes:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="additional-notes">
+                                        <span>
+                                            <!--<apex:inputfield value="{!currentReturn.Additional_Notes__c}" style="width: 95%;"></apex:inputfield>-->
+                                            <apex:inputfield value="{!currentReturn.Additional_Notes__c}" rendered="{!currentReturn.Stage__c == 'Draft'}" style="width: 95%;max-height:75px;"
+                                            />
+                                            <apex:outputtext value="{!currentReturn.Additional_Notes__c}" rendered="{!currentReturn.Stage__c != 'Draft'}" style="width: 95%;max-height:75px;"
+                                            />
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="account-information">
+                <div class="slds-scrollable--y" style="height:100%">
+                    <table class="slds-table slds-table--bordered tablesorter " id="searchProductTable" style="border: 0px;vertical-align: top;
+                        margin: 10px;">
+                        <thead>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Account Name:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="AccountName">
+                                        <span>{!currentAccount.Name}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Account #:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="AccountNumber">
+                                        <span>{!currentAccount.Account__c}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Account Email:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="AccountEmail">
+                                        <span>{!currentAccount.Email__c}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="slds-text-heading--label">
+                                <td class="form-header-span">
+                                    <div>
+                                        <span>Tracking Number:</span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div id="TrackingNumber">
+                                        <span>
+                                            <apex:inputfield value="{!currentReturn.Tracking_Number__c}" rendered="{!currentReturn.Stage__c == 'Draft'}" style="width: 95%;"
+                                            />
+                                            <apex:outputtext value="{!currentReturn.Tracking_Number__c}" rendered="{!currentReturn.Stage__c != 'Draft'}" style="width: 95%;"
+                                            />
+                                        </span>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </apex:outputPanel>
+
+        <apex:outputPanel layout="block" styleClass="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+            <div class="slds-scrollable--y" style="overflow-y:scroll; height:100%">
+                <table class="slds-table slds-table--bordered tablesorter " id="searchProductTable">
+                    <thead>
+                        <tr class="slds-text-heading--label">
+                            <!--<th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate"></div>
+                        </th> -->
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate"></div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate"></div>
+                            </th>
+                            <apex:repeat value="{!returns}" var="return">
+                                <th class="slds-is-sortable quantity" scope="col">
+                                    <div class="slds-truncate"></div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate"></div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate">
+                                        <apex:outputfield value="{!return.Submitted_Date__c}" />
+                                    </div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate"></div>
+                                </th>
+                            </apex:repeat>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="slds-text-heading--label">
+                            <!--<th class="slds-is-sortable" scope="col">
+                            <div class="slds-truncate">Brand</div>
+                        </th> -->
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Product#</div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Product Description</div>
+                            </th>
+                            <apex:repeat value="{!returns}" var="return">
+                                <th class="slds-is-sortable quantity" scope="col">
+                                    <div class="slds-truncate"></div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate">Quantity Type</div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate">Quantity*</div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate">Return Code*</div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate">Product Date*</div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate">Age</div>
+                                </th>
+                                <th class="slds-is-sortable" scope="col">
+                                    <div class="slds-truncate">Amount</div>
+                                </th>
+                            </apex:repeat>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <apex:repeat value="{!ReturnDTOs}" var="ReturnDTO">
+                            <tr class="slds-hint-parent">
+                                <!--<td class="slds-truncate" scope="row" data-label="del">
+                                    <apex:outputtext value="{!ReturnDTO.brand}"/>
+                                    <apex:outputtext value="{!ReturnDTO.retLI[currentReturn].Product__r.Product_Brand__c}" rendered="{!ReturnDTO.isNew}" style="width: 100%"/>
+                                </td> -->
+                                <td class="" data-label="Product">
+                                    <apex:outputtext value="{!ReturnDTO.productNumber}" />
+                                    <apex:outputtext value="{!ReturnDTO.retLI[currentReturn].Product__r.Item_Num__c}" rendered="{!ReturnDTO.isNew}" style="width: 100%"
+                                    />
+                                </td>
+                                <td class="" data-label="ProductCode">
+                                    <apex:outputtext value="{!ReturnDTO.productDescription}" />
+                                    <apex:outputtext value="{!ReturnDTO.productName}" rendered="{!ReturnDTO.isNew}" style="width: 100%" />
+                                </td>
+                                <apex:repeat value="{!returns}" var="return">
+                                    <td class="quantity delete-btn" id="{!ReturnDTO.retLI[return.id].Id}">
+                                        <apex:commandLink action="{!createDeletionRequest}" value="Delete" rendered="{!IF(currentReturn.Stage__c != 'Draft', false, IF(ReturnDTO.retLI[return.id].Id != NULL, true, false))}">
+                                            <apex:param name="rliId" value="{!ReturnDTO.retLI[return.id].Id}" assignTo="{!deleteItemId}" />
+                                        </apex:commandLink>
+                                    </td>
+                                    <td class="">
+                                        <apex:outputPanel rendered="{!currentReturn.Stage__c == 'Draft'}">
+                                            <apex:selectList styleClass="slds-select" label="View Last" value="{!ReturnDTO.retLI[return.id].Quantity_Type__c}" size="1"
+                                                style="width:200px" id="select_list">
+                                                <apex:selectOption itemValue="Display" itemLabel="Display" />
+                                                <apex:selectOption itemValue="Pouch" itemLabel="Pouch" />
+                                                <apex:actionSupport event="onchange" action="{!convertQuantity}" rerender="out-quant, in-quant" />
+                                            </apex:selectList>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!currentReturn.Stage__c != 'Draft'}">
+                                            <apex:outputtext value="{!ReturnDTO.retLI[return.id].Quantity_Type__c}" />
+                                        </apex:outputPanel>
+
+
+                                    </td>
+                                    <td class="">
+                                        <apex:outputPanel id="out-quant">
+                                            <apex:outputtext value="{!ReturnDTO.retLI[return.id].Displays__c}" rendered="{! currentReturn.Stage__c != 'Draft' && ReturnDTO.retLI[return.id].Quantity_Type__c == 'Display'}"
+                                                id="out-quant-disp" />
+                                            <apex:outputtext value="{!ReturnDTO.retLI[return.id].Pouches__c}" rendered="{! currentReturn.Stage__c != 'Draft' && ReturnDTO.retLI[return.id].Quantity_Type__c == 'Pouch'}"
+                                                id="out-quant-pou" />
+                                        </apex:outputPanel>
+
+                                        <apex:outputPanel id="in-quant">
+                                            <apex:inputfield value="{!ReturnDTO.retLI[return.id].Displays__c}" rendered="{!currentReturn.Stage__c == 'Draft' && ReturnDTO.retLI[return.id].Quantity_Type__c == 'Display'}"
+                                                style="width:6em" id="in-quant-disp" />
+                                            <apex:inputfield value="{!ReturnDTO.retLI[return.id].Pouches__c}" rendered="{!currentReturn.Stage__c == 'Draft' && ReturnDTO.retLI[return.id].Quantity_Type__c == 'Pouch'}"
+                                                style="width:6em" id="in-quant-pou" />
+                                        </apex:outputPanel>
+
+                                    </td>
+                                    <td class="" data-label="ReturnCode">
+                                        <apex:outputfield value="{!ReturnDTO.retLI[return.id].Return_Code__c}" rendered="{!return.Stage__c != 'Draft'}" />
+                                        <apex:inputfield value="{!ReturnDTO.retLI[return.id].Return_Code__c}" rendered="{!return.Stage__c == 'Draft'}" />
+                                    </td>
+                                    <td class="" data-label="ProductCategory">
+                                        <apex:outputfield value="{!ReturnDTO.retLI[return.id].Product_Date__c}" rendered="{!return.Stage__c != 'Draft'}" />
+                                        <apex:inputfield value="{!ReturnDTO.retLI[return.id].Product_Date__c}" rendered="{!return.Stage__c == 'Draft'}" />
+                                    </td>
+                                    <td class="product-age" data-label="ProdDescription">
+                                        <apex:outputtext value="{!ReturnDTO.retLI[return.id].Age__c}" />
+                                    </td>
+                                    <td class="product-returnamount" data-label="ProdReturnAmount">
+                                        <apex:outputtext value="{!ReturnDTO.retLI[return.id].Return_Percentage__c}" />%
+                                    </td>
+                                </apex:repeat>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                <div Id="table-footer-note">* - required fields must be filled in to save return line item</div>
+            </div>
+            <script>
+                j$ = jQuery.noConflict();
+                j$.each(j$('.product-age'), function (index, element) {
+                    var ageCount = j$(element).text();
+                    if (ageCount > 0 && ageCount < 365 || ageCount == 0) {
+                        j$(element).css('backgroundColor', '#b6fbb6');
+                    } else if (ageCount > 365 && ageCount < 730) {
+                        j$(element).css('backgroundColor', '#f9f988');
+                    } else if (ageCount > 730) {
+                        j$(element).css('backgroundColor', '#f97272');
+                    } else if (ageCount < 0) {
+                        j$(element).css('backgroundColor', '#ff8d3b');
+                    }
+                });
+            </script>
+        </apex:outputPanel>
+    </apex:form>
+
+    <apex:form rendered="{!currentReturn.Stage__c == 'Draft'}">
+        <!--<apex:pageMessages id="errors" />-->
+        <table width="100%" border="0" class="searchResultsTable">
+            <tr>
+                <td width="200" valign="top" style="padding-right: 5px;">
+                    <apex:pageBlock title="Search" mode="edit" id="criteria">
+
+
+                        <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors">
+                            <apex:param name="searchVal" value="" />
+                        </apex:actionFunction>
+
+                        <table cellpadding="2" cellspacing="2">
+                            <tr>
+                                <td style="font-weight:bold;">Item Name
+                                    <br/>
+                                    <input type="text" id="searchVal" value=" " />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <br/>
+                                    <apex:commandButton value="Search" styleClass="slds-button_neutral" onclick="search(); return false;" reRender="none"></apex:commandButton>
+                                    <apex:commandButton value="Clear Selections" styleClass="slds-button_neutral" onclick="clearFrontendSelections(); return false;"></apex:commandButton>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br/>
+                        <p style="font-weight:bold; font-size:9px;">*Note that all searches only return items with item status 1 or 2.</p>
+                    </apex:pageBlock>
+                </td>
+
+                <td valign="top">
+                    <apex:pageBlock mode="edit" id="results">
+
+                        <apex:pageBlockTable value="{!prodList}" var="prod">
+                            <apex:column >
+                                <apex:facet name="header">
+                                    <apex:outputText value="Select" />
+                                </apex:facet>
+                                <input type="text" id="matchId{!prod.wrappedProd.Id}" value="{!prod.wrappedProd.Id}" style="display:none;" />
+                                <input type="checkbox" id="prodSelectState{!prod.wrappedProd.Id}" onclick="recordSelection('{!prod.wrappedProd.Id}'); return null;"
+                                    class="requestItemCheckBox" />
+                            </apex:column>
+
+                            <apex:column >
+                                <apex:facet name="header">
+                                    <apex:commandLink value="Item Description" action="{!toggleSort}" rerender="results,debug">
+                                        <apex:param name="sortField" value="Name" assignTo="{!sortField}" />
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{!prod.wrappedProd.Name}" style="font-size: x-small;" />
+                            </apex:column>
+
+                            <apex:column >
+                                <apex:facet name="header">
+                                    <apex:commandLink value="Item Number" action="{!toggleSort}" rerender="results,debug">
+                                        <apex:param name="sortField" value="ProductCode" assignTo="{!sortField}" />
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{!prod.wrappedProd.ProductCode}" style="font-size: x-small;" />
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+
+                </td>
+            </tr>
+        </table>
+        <!--
+            <div id="divDebugPanel">
+              <apex:pageBlock title="Debug - SOQL" id="debug" >
+                  <apex:outputText value="{!debugSoql}" />           
+              </apex:pageBlock>    
+      
+              <apex:pageBlock title="Debug - String Parsing" id="debug2">
+                  <apex:outputText value="{!debugLog}" />           
+              </apex:pageBlock>
+            </div> -->
+    </apex:form>
+
+
+    <script type="text/javascript">
+        var listOfSelected = "";
+        var selectedArray = [];
+
+        function search() {
+            clearFrontendSelections();
+
+            searchServer(
+                document.getElementById("searchVal").value
+            );
+            return null;
+        }
+
+        function recordSelection(prodId) {
+            var prodId = document.getElementById("matchId" + prodId).value;
+            var selectedState = document.getElementById("prodSelectState" + prodId).checked;
+
+            selectedArray.push(document.getElementById("matchId" + prodId).value);
+
+            //debug
+            //console.log("recordSelection - recorded selection: " + prodId + "  prodSelectState.checked: " + selectedState );
+
+            listOfSelected += "" + prodId + "," + selectedState + ",";
+
+            return false;
+
+        }
+
+        function addLineItem() {
+
+            var str = listOfSelected.slice(0, -1);
+            addLI(str);
+
+            //debug
+            console.log("addLineItem - list of selected submitted: " + str);
+
+            clearFrontendSelections();
+            return false;
+        }
+
+        function clearFrontendSelections() {
+            var i;
+            for (i = 0; i < selectedArray.length; i++) {
+                document.getElementById("prodSelectState" + selectedArray[i]).checked = false;
+            }
+
+            listOfSelected = '';
+            selectedArray = [];
+            //debug
+            //console.log("clearFrontendSelections executed " );
+            return false;
+        }
+
+        document.getElementById('searchVal').onkeypress = function (e) {
+            if (e.keyCode == '13') {
+                search();
+                return false;
+            }
+        }
+
+        function submitListener(e) {
+            var keynum = 0;
+            if (window.event) {
+                keynum = window.event.keyCode;
+            }
+            else if (e.which) {
+                keynum = e.which;
+            }
+
+            // Here we check whether the Enter button was pressed
+            if (keynum == 13) {
+                onFormSubmit();
+                return false;
+            }
+        }
+
+    </script>
+</apex:page>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>4 F 99</fullName>
+        <default>false</default>
+        <label>4 F 99</label>
+    </customValue>
+    <customValue>
+        <fullName>4 Plus 1 (Promotional)</fullName>
+        <default>false</default>
+        <label>4 Plus 1 (Promotional)</label>
+    </customValue>
+    <masterLabel>4 K&apos;s</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

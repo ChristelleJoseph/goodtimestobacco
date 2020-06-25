@@ -1,0 +1,3 @@
+<apex:page standardController="Return__c"  lightningStylesheets="true">
+    <apex:outputtext >Returns cannot be created through the new button, please navigate to the account you are creating the return for and click the 'Initiate Return' button on the account dropdown list.</apex:outputtext>
+</apex:page>

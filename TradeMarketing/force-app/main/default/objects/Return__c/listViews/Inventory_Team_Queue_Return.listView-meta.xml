@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Inventory_Team_Queue_Return</fullName>
+    <columns>Return_Form__c</columns>
+    <columns>Account__c</columns>
+    <columns>Account_GP_Number__c</columns>
+    <columns>NAME</columns>
+    <columns>Stage__c</columns>
+    <columns>Initiator__c</columns>
+    <columns>Submitted_Date__c</columns>
+    <filterScope>Queue</filterScope>
+    <label>Inventory Team Queue</label>
+    <queue>Inventory_Team_Queue</queue>
+    <sharedTo>
+        <allInternalUsers/>
+    </sharedTo>
+</ListView>

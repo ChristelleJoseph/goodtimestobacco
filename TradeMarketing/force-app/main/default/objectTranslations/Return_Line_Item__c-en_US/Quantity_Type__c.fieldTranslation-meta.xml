@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Select &quot;Display&quot; for whole boxes of product, select &quot;Pouch&quot; for individual pouches or loose sticks. --></help>
+    <label><!-- Quantity Type --></label>
+    <name>Quantity_Type__c</name>
+    <picklistValues>
+        <masterLabel>Display</masterLabel>
+        <translation><!-- Display --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pouch</masterLabel>
+        <translation><!-- Pouch --></translation>
+    </picklistValues>
+</CustomFieldTranslation>
