@@ -14,11 +14,15 @@
 
         Start Date: <apex:input type="date" value="{!startDate}" required="true" />
         End Date: <apex:input type="date" value="{!endDate}" required="true" />
-        <apex:commandButton styleClass="slds-button_neutral" value="Save" action="{!save}" reRender="modal-content-id-1" lang="End Date"/>
+        <apex:commandButton styleClass="slds-button_neutral" value="Save" action="{!save}" reRender="timerPanel, modal-content-id-1" lang="End Date"/>
 
         <br/><br/>
         <apex:outputPanel layout="block" id="modal-content-id-1">
-            <apex:pageMessages id="errors" />
+
+            <apex:outputPanel id="messagePanel" onclick="clearMessage();">
+                <apex:pageMessages id="message"></apex:pageMessages>
+            </apex:outputPanel>
+
             <apex:pageBlock  id="dataBlock" rendered="{!showResults}">
                 <apex:dataTable value="{!tmaWrapList}" var="tma" id="theTable" rowClasses="odd,even" styleClass="tableClass">
                     <apex:column>
@@ -45,8 +49,17 @@
                     </apex:column>
                 </apex:dataTable>
             </apex:pageBlock>
-            <apex:outputLabel id="noRecFound"></apex:outputLabel>
-            <!--            <apex:outputLabel id="noRecFound" rendered="{!noResultsFoundMessage}"> <h2>No Record Found</h2> </apex:outputLabel>-->
+
+            <apex:outputPanel id="timerPanel">
+                <apex:actionPoller reRender="messagePanel"
+                                   interval="5"
+                                   enabled="{!timer}"
+                                   action="{!timerOff}"/>
+            </apex:outputPanel>
+
+            <apex:actionFunction name="clearMessage"
+                                 action="{!timerOff}"
+                                 reRender="messagePanel"/>
         </apex:outputPanel>
     </apex:form>
 </apex:page>

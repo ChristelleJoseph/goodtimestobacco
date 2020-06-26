@@ -10,6 +10,8 @@ public with sharing class GT_TMARecapClass_Two {
 	public Decimal totalDiscount {get; set;}
 	public boolean showResults {get; set;}
 	public boolean noResultsFoundMessage {get; set;}
+	public boolean timer {get; set;}
+
 
 	public List<Trade_Marketing_Agreement__c> tmaDates {get; set;}
 	public List<Trade_Marketing_Agreement_Line_Item__c> tmaLineItems {get; set;}
@@ -92,6 +94,7 @@ public with sharing class GT_TMARecapClass_Two {
 			}
 			calculateTotalDiscount();
 
+
 			if (tm.quantity != null){
 				Trade_Marketing_Agreement_Line_Item__c updateTmaLineItem =
 						new Trade_Marketing_Agreement_Line_Item__c(
@@ -103,10 +106,33 @@ public with sharing class GT_TMARecapClass_Two {
 			}
 		}
 
-		update updateTmaLineItemList;
+		try{
+			update updateTmaLineItemList;
+			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.CONFIRM,'Records Saved successfully!'));
 
-		ApexPages.addMessage(new ApexPages.message(ApexPages.severity.CONFIRM,'Saved successfully!'));
+
+		}catch(DmlException e)
+		{
+			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'Please enter Valid Data'));
+		}
+
+		timerOn();
 	}
+
+
+	public void clearMessage(){
+		ApexPages.getMessages().clear();
+
+	}
+
+	public void timerOn(){
+		timer = true;
+	}
+
+	public void timerOff(){
+		timer = false;
+	}
+
 
 	public class TMAWrapperClassObject{
 		public String Id {get; set;}
