@@ -1,4 +1,4 @@
-<apex:page standardController="Trade_Marketing_Agreement__c" extensions="GT_TMARecapClass_Two" action="{!DisplayTMARecapFormDataTable}" showHeader="true" sideBar="false" lightningStylesheets="true" docType="html-5.0">
+<apex:page standardController="Trade_Marketing_Agreement__c" extensions="GT_TMARecapClass_Two" action="{!displayTMARecapFormDataTable}" showHeader="true" sideBar="false" lightningStylesheets="true" docType="html-5.0">
     <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}"/>
     <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js"/>
@@ -6,15 +6,71 @@
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="Expires" content="0"/>
 
+    <style>
+        /*.total-table {*/
+        /*    width: 280px;*/
+        /*    float: right;*/
+        /*}*/
+        .total-table-container{
+            width: 400px;
+            float: right;
+            margin-bottom: 4rem;
+            border: 1px solid rgb(221, 219, 218);
+            border-radius: .25rem;
+            background: rgb(255, 255, 255);
+            -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+            background-clip: padding-box;
+            padding: .75rem 1rem;
+            margin-left: 1rem;
+            margin-right: 1rem
+        }
+
+        .pageblock-container{
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .date-container{
+            display: inline-block;
+            margin-right: .75rem;
+            font-size: .75rem;
+            line-height: 1.5;
+            color: rgb(62, 62, 60);
+            margin-left: 1.25rem;
+        }
+
+        .left-label{
+            margin-left: 2rem;
+        }
+
+        .total-value{
+            width: 210px;
+        }
+
+        .total-label{
+            background-color: rgb(250, 250, 249);
+            color: rgb(81, 79, 77);
+            padding: .25rem .5rem;
+            line-height: normal;
+        }
+
+
+    </style>
+
     <apex:form>
         <apex:sectionHeader title="" subtitle="Trade Marketing Recap Form"/>
         <div class="ptBreadcrumb" style="padding-bottom: 5px;">&nbsp;«&nbsp;
             <a href="/{!Trade_Marketing_Agreement__c.Id}">Back to Trade Marketing Agreement</a>
         </div>
 
-        Start Date: <apex:input type="date" value="{!startDate}" required="true" />
-        End Date: <apex:input type="date" value="{!endDate}" required="true" />
-        <apex:commandButton styleClass="slds-button_neutral" value="Save" action="{!save}" reRender="timerPanel, modal-content-id-1" lang="End Date"/>
+        <div class="date-container">
+            <label>Start Date:</label>
+             <apex:input type="date" value="{!startDate}" html-readonly="true" />
+            <label class="left-label">End Date:</label>
+             <apex:input type="date" value="{!endDate}" html-readonly="true" />
+            <apex:commandButton styleClass="slds-button_neutral" value="Save" action="{!save}" reRender="timerPanel, modal-content-id-1" lang="End Date"/>
+        </div>
 
         <br/><br/>
         <apex:outputPanel layout="block" id="modal-content-id-1">
@@ -23,33 +79,43 @@
                 <apex:pageMessages id="message"></apex:pageMessages>
             </apex:outputPanel>
 
-            <apex:pageBlock  id="dataBlock" rendered="{!showResults}">
-                <apex:dataTable value="{!tmaWrapList}" var="tma" id="theTable" rowClasses="odd,even" styleClass="tableClass">
-                    <apex:column>
-                        <apex:facet name="header">Brand</apex:facet>
-                        <apex:outputText value="{!tma.brand}"/>
-                    </apex:column>
-                    <apex:column>
-                        <apex:facet name="header">Brand Description</apex:facet>
-                        <apex:outputText value="{!tma.brandDescription}"/>
-                    </apex:column>
-                    <apex:column>
-                        <apex:facet name="header">Allowance Rate</apex:facet>
-                        <apex:outputText value="{!tma.allowanceRate}"/>
-                    </apex:column>
-                    <apex:column>
-                        <apex:facet name="header">Quantity</apex:facet>
-                        <apex:facet name="footer"><b>Total Discount</b></apex:facet>
-                        <apex:InputText value="{!tma.quantity}"/>
-                    </apex:column>
-                    <apex:column>
-                        <apex:facet name="header">Discount</apex:facet>
-                        <apex:facet name="footer">{!totalDiscount}</apex:facet>
-                        <apex:outputText value="{!tma.discount}"/>
-                    </apex:column>
-                </apex:dataTable>
-            </apex:pageBlock>
+            <div class="pageblock-container">
+                <apex:pageBlock  id="dataBlock">
+                    <apex:dataTable value="{!tmaWrapList}" var="tma" id="theTable" rowClasses="odd,even" styleClass="tableClass">
+                        <apex:column>
+                            <apex:facet name="header">Brand</apex:facet>
+                            <apex:outputText value="{!tma.brand}"/>
+                        </apex:column>
+                        <apex:column>
+                            <apex:facet name="header">Brand Description</apex:facet>
+                            <apex:outputText value="{!tma.brandDescription}"/>
+                        </apex:column>
+                        <apex:column>
+                            <apex:facet name="header">Allowance Rate</apex:facet>
+                            <apex:outputText value="{!tma.allowanceRate}"/>
+                        </apex:column>
+                        <apex:column>
+                            <apex:facet name="header">Quantity</apex:facet>
+                            <!--                        <apex:facet name="footer"><b>Total Discount</b></apex:facet>-->
+                            <apex:InputText value="{!tma.quantity}"/>
+                        </apex:column>
+                        <apex:column>
+                            <apex:facet name="header">Discount</apex:facet>
+                            <!--                        <apex:facet name="footer">{!totalDiscount}</apex:facet>-->
+                            <apex:outputText value="{!tma.discount}"/>
+                        </apex:column>
+                    </apex:dataTable>
+                </apex:pageBlock>
 
+            </div>
+            <div class="total-table-container">
+                <table class="total-table">
+                    <tr>
+                        <td class="total-label">TOTAL DISCOUNT</td>
+                        <td class="total-value">{!totalDiscount}</td>
+                    </tr>
+                </table>
+            </div>
             <apex:outputPanel id="timerPanel">
                 <apex:actionPoller reRender="messagePanel"
                                    interval="5"

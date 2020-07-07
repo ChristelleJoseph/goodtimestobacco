@@ -1,6 +1,18 @@
 <apex:page standardController="Account" extensions="GT_TMARecapClass" showHeader="true" sideBar="false" lightningStylesheets="true" docType="html-5.0">
 
+    <script>
+      function disable()
+      {
+        console.log('over here!@@@ on top')
 
+        if( document.getElementById('baseObject').value != '' )
+        {
+          console.log('over here!@@@')
+          document.getElementById("baseObject").disabled = true;
+        }
+
+      }
+    </script>
 
     <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.min.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SLDS232,'assets/styles/salesforce-lightning-design-system.css')}"/>
@@ -15,8 +27,8 @@
             <a href="/{!Account.Id}">Back to Account</a>
         </div>
 
-        Start Date: <apex:input type="date" value="{!startDate}" required="true" />
-        End Date: <apex:input type="date" value="{!endDate}" required="true" />
+        Start Date: <apex:input type="date" id="baseObject" value="{!startDate}" />
+        End Date: <apex:input type="date" value="{!endDate}"  html-readonly="true"  />
         <apex:commandButton styleClass="slds-button_neutral" value="Sync Order from Account" action="{!DisplayTMARecapFormDataTable}" reRender="modal-content-id-1" lang="End Date"/>
 
         <br/><br/>
@@ -49,7 +61,7 @@
             </apex:dataTable>
             </apex:pageBlock>
             <apex:outputLabel id="noRecFound"></apex:outputLabel>
-            <!--            <apex:outputLabel id="noRecFound" rendered="{!noResultsFoundMessage}"> <h2>No Record Found</h2> </apex:outputLabel>-->
         </apex:outputPanel>
     </apex:form>
+
 </apex:page>

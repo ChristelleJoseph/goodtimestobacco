@@ -8,8 +8,6 @@ public with sharing class GT_TMARecapClass_Two {
 	public  Date endDate{get;set;}
 	public String tmaId {get; set;}
 	public Decimal totalDiscount {get; set;}
-	public boolean showResults {get; set;}
-	public boolean noResultsFoundMessage {get; set;}
 	public boolean timer {get; set;}
 
 
@@ -22,14 +20,13 @@ public with sharing class GT_TMARecapClass_Two {
 		this.tmAgreement = (Trade_Marketing_Agreement__c)stdController.getRecord();
 	}
 
-	public void DisplayTMARecapFormDataTable(){
-		showResults = false;
-		noResultsFoundMessage = false;
+	public void displayTMARecapFormDataTable(){
 		getTMADiscountAndAllowanceRate();
-		BuildTMARecapFormWithRequiredInformation();
+		buildTMARecapFormWithRequiredInformation();
 		calculateTotalDiscount();
 	}
 
+	@TestVisible
 	private void getTMADiscountAndAllowanceRate(){
 		tmaId = ApexPages.currentPage().getParameters().get('id');
 
@@ -41,16 +38,10 @@ public with sharing class GT_TMARecapClass_Two {
 					WHERE Trade_Marketing_Agreement__c =:tmaId
 
 			];
-		if (tmaLineItems.size()> 0){
-			showResults = true;
-		}else{
-			showResults = false;
-			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'No record found.'));
-
-		}
 	}
 
-	private void BuildTMARecapFormWithRequiredInformation(){
+	@TestVisible
+	private void buildTMARecapFormWithRequiredInformation(){
 
 		tmaDates = [Select Start_Date__c, End_Date__c FROM Trade_Marketing_Agreement__c Where Id = :tmaId ];
 		startDate = tmaDates[0].Start_Date__c;
@@ -79,12 +70,14 @@ public with sharing class GT_TMARecapClass_Two {
 			}
 		}
 
+	@TestVisible
 	private void calculateTotalDiscount(){
 		totalDiscount = 0;
 		for(TMAWrapperClassObject TMAWrapperObject: tmaWrapList){
 			totalDiscount += TMAWrapperObject.discount;
 		}
 	}
+
 
 	public void save(){
 		List<Trade_Marketing_Agreement_Line_Item__c> updateTmaLineItemList = new List<Trade_Marketing_Agreement_Line_Item__c>();
@@ -152,5 +145,4 @@ public with sharing class GT_TMARecapClass_Two {
 		}
 	}
 
-	//todo - fix capitalization in methods. Start with lowerCase
 }
