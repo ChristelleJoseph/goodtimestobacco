@@ -5,6 +5,7 @@
       <configuration>
         <option name="connectionName" value="GoodTime" />
         <option name="connectionType" value="MDAPI" />
+        <option name="defaultSourceRootUrl" value="file://$MODULE_DIR$/src" />
         <option name="moduleContents">
           <ModuleContents>
             <option name="contentSelectionType" value="PACKAGE_XML" />

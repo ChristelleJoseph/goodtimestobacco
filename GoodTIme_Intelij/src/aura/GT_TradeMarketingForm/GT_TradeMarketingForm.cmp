@@ -1,8 +1,8 @@
 <aura:component implements="lightning:isUrlAddressable,force:appHostable" controller="GT_TradeMarketingFormController" access="global">
 	<aura:attribute name="recordId" type="String"/>
     <aura:attribute name="tmaRecord" type="Trade_Marketing_Agreement__c" default="{}"/>
+    <aura:attribute name="tmaInfo" type="Trade_Marketing_Agreement__c" default="{}"/>
     <aura:attribute name="lineItems" type="Trade_Marketing_Agreement_Line_Item__c[]" default="[]"/>
-    
     <aura:attribute name="searchName" type="String" default=""/>
     <aura:attribute name="promotions" type="Trade_Marketing_Agreement_Promotion__c[]" default="[]"/>
     
@@ -34,12 +34,61 @@
             &lt;&lt; <lightning:formattedUrl value="{!'/' + v.tmaRecord.Account__c}" label="Back to Account" />
         </div>
     </article>
+
     
     <div class="slds-wrap">
+        <lightning:card variant="Narrow" title="Record Details" iconName="standard:lead_list">
+
+            <div class="c-container">
+                <lightning:layout>
+                    <lightning:layoutItem padding="around-large">
+                        <div class="detail-name">
+                            <h3><b>Name</b></h3>
+                            {!v.tmaRecord.Name}
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-large">
+                        <div class="detail-status">
+                            <h3><b>Status</b></h3>
+                            {!v.tmaRecord.Status__c}
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-large">
+                        <div class="detail-createdBy">
+                            <h3><b>Created By</b></h3>
+                            {!v.tmaRecord.CreatedBy.Name}
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-large">
+                        <div class="detail-accountName">
+                            <h3><b>Account Name</b></h3>
+                            {!v.tmaRecord.Account__r.Name}
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-large">
+                        <div class="detail-accountEmail">
+                            <h3><b>Primary Account Email</b></h3>
+                            {!v.tmaRecord.Account__r.Email__c}
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout>
+                    <lightning:layoutItem padding="around-large">
+                        <div class="Approver-Note">
+                            <h3><b>Approver Note</b></h3>
+                            {!v.tmaRecord.Approver_Notes__c}
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+        </lightning:card>
+
         <div class="slds-form" role="list">
             <div class="slds-form__row">
                 <div class="slds-form__item" role="listitem">
                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+
+
                         <span class="slds-form-element__label">Start Date</span>
                         <div class="slds-form-element__control">
                             <div class="slds-form-element__static">
@@ -66,19 +115,22 @@
                 </div>
             </div>
         </div>
-        
+
+
+
         <ul class="slds-button-group-row buttonGroup">
             <li class="slds-button-group-item">
-                <button class="slds-button slds-button_neutral" onclick="{!c.saveRecord}">Save Changes</button>
+
+                <lightning:button class="slds-button slds-button_neutral " onclick="{!c.saveRecord}" aura:id="btn1" >Save Changes</lightning:button>
             </li>
             <li class="slds-button-group-item">
-                <button class="slds-button slds-button_neutral" onclick="{!c.addLineItems}">Add Brands</button>
+                <lightning:button class="slds-button slds-button_neutral" onclick="{!c.addLineItems}" aura:id="btn2">Add Brands</lightning:button>
             </li>
             <li class="slds-button-group-item">
-                <button class="slds-button slds-button_neutral">Submit For Approval</button>
+                <lightning:button class="slds-button slds-button_neutral" onclick="{!c.sendForApproval}" aura:id="btn3">Submit For Approval</lightning:button>
             </li>
             <li class="slds-button-group-item">
-                <button class="slds-button slds-button_neutral" onclick="{!c.launchRecap}">Launch Recap Form</button>
+                <lightning:button class="slds-button slds-button_neutral" onclick="{!c.launchRecap}" aura:id="btn4">Launch Recap Form</lightning:button>
             </li>
         </ul>
         

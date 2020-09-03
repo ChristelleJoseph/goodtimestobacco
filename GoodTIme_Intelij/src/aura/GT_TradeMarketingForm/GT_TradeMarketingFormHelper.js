@@ -1,4 +1,28 @@
 ({
+    getTmaInfo: function(component, event, helper){
+        let action = component.get("c.getTmaInfo");
+        const recordId = component.get("v.recordId");
+
+        action.setParams({
+            recordId : recordId
+        });
+
+        action.setCallback(this, function(response){
+            let state = response.getState();
+
+            if(state === "SUCCESS") {
+                let result = response.getReturnValue();
+                component.set("v.tmaInfo", result.tradeMarketingAgreement);
+
+                console.log('this shit is weird', result.tradeMarketingAgreement);
+
+            }
+        })
+
+        $A.enqueueAction(action);
+
+    },
+
 	getBaseData : function(component, event, helper) {
 		let action = component.get("c.getBaseData");
         const recordId = component.get("v.recordId");
@@ -46,6 +70,57 @@
                     component.set("v.lineItems", lineItems);
                     component.set("v.tmaRecord", data.tradeMarketingAgreement);
                     component.set("v.recordId", data.tradeMarketingAgreement.Id);
+                    component.set("v.displayApprovals", data.displayApprovals);
+                }
+                else {
+                    helper.showToast('Error', data.strMessage, 'error');
+                }
+            }
+            else if(state === "INCOMPLETE") {
+                // do something
+            }
+            else if(state === "ERROR") {
+                let errors = response.getError();
+
+                if(errors) {
+                    if(errors[0] && errors[0].message) {
+                        console.log("Error message: " +  errors[0].message);
+                    }
+                }
+                else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+
+        $A.enqueueAction(action);
+	},
+
+	approveRecord : function(component, event, helper, strApprovalType) {
+		let action = component.get("c.approveRecord");
+
+        action.setParams({
+            strRecordId : component.get("v.recordId"),
+            strApprovalType : strApprovalType,
+            strApproverComment : component.get("v.strApproverComment")
+        });
+
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+
+            if(state === "SUCCESS") {
+                let data = response.getReturnValue();
+
+                if(data.isSuccess == true) {
+                    let message = 'Approved';
+
+                    if(strApprovalType !== 'Approve') {
+                        message = 'Rejected'
+                    }
+
+                    helper.showToast('Success', 'Record ' + message + ' successfully.', 'success');
+                    component.set("v.showApprovalPanel", false);
+                    helper.getBaseData(component, event, helper);
                 }
                 else {
                     helper.showToast('Error', data.strMessage, 'error');
@@ -86,6 +161,7 @@
                 let data = response.getReturnValue();
                 
                 if(data.isSuccess == true) {
+                    helper.showToast('Success', 'Agreement record saved approval.', 'success');
                     helper.getBaseData(component, event, helper);
                 }
                 else {
@@ -218,6 +294,7 @@
                 
                 if(data.isSuccess == true) {
                     component.set("v.newLineItems", []);
+                    helper.showToast('Success', 'Line Items saved successfully.', 'success');
                     helper.getBaseData(component, event, helper);
                 }
                 else {
@@ -258,6 +335,7 @@
                 let data = response.getReturnValue();
                 
                 if(data.isSuccess == true) {
+                    helper.showToast('Success', 'Line Item deleted successfully.', 'success');
                     helper.getBaseData(component, event, helper);
                 }
                 else {
@@ -284,6 +362,47 @@
         $A.enqueueAction(action);
 	},
     
+	submitForApproval : function(component, event, helper) {
+		let action = component.get("c.submitForApproval");
+
+        action.setParams({
+            strRecordId : component.get("v.recordId")
+        });
+
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+
+            if(state === "SUCCESS") {
+                let data = response.getReturnValue();
+
+                if(data.isSuccess == true) {
+                    helper.getBaseData(component, event, helper);
+                    helper.showToast('Success', 'Record submitted for approval.', 'success');
+                }
+                else {
+                    helper.showToast('Error', data.strMessage, 'error');
+                }
+            }
+            else if(state === "INCOMPLETE") {
+                // do something
+            }
+            else if(state === "ERROR") {
+                let errors = response.getError();
+
+                if(errors) {
+                    if(errors[0] && errors[0].message) {
+                        console.log("Error message: " +  errors[0].message);
+                    }
+                }
+                else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+
+        $A.enqueueAction(action);
+	},
+
     showLookupResult : function(component, componentName) {
         const foropen = component.find(componentName);
         $A.util.addClass(foropen, 'lookupResult');

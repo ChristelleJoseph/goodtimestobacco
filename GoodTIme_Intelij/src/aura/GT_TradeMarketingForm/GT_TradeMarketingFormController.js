@@ -1,9 +1,75 @@
 ({
 	doInit : function(component, event, helper) {
+
+        let userId = $A.get("$SObjectType.CurrentUser.Id");
+        let recordId = component.get("v.pageReference").state.c__id;
+
+        const recordId2 = component.get("v.recordId");
+
+        console.log('check here original',recordId );
+        console.log('check here',recordId2 );
+
+
+        let action = component.get("c.isValidUser");
+        action.setParams({
+            userId: userId,
+            recordId: recordId
+        });
+        action.setCallback(this, function(data) {
+            let result = data.getReturnValue();
+            console.log('result 123', result);
+            console.log('check here',recordId2 );
+
+            if (result == false){
+
+                let btn1 = component.find('btn1');
+                btn1.set('v.disabled', true);
+
+                let btn2 = component.find('btn2');
+                btn2.set('v.disabled', true);
+
+                let btn3 = component.find('btn3');
+                btn3.set('v.disabled', true);
+
+                let btn4 = component.find('btn4');
+                btn4.set('v.disabled', true);
+
+                let toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    title : 'Warning',
+                    message: 'Please Check The Following Items: \n Account Should Have Associated Email Address.\n ' +
+                        'User Should Have Assigned Supervisor.',
+                    duration:' 5000',
+                    key: 'info_alt',
+                    type: 'warning',
+                    mode: 'sticky'
+                });
+                toastEvent.fire();
+            }
+        });
+        $A.enqueueAction(action);
+
+
         component.set("v.recordId", component.get("v.pageReference").state.c__id);
-		helper.getBaseData(component, event, helper);
+        helper.getBaseData(component, event, helper);
 	},
-    
+
+    showApprovalPanel : function(component, event, helper) {
+        component.set("v.showApprovalPanel", true);
+    },
+
+    hideApprovalPanel : function(component, event, helper) {
+        component.set("v.showApprovalPanel", false);
+    },
+
+    recordApprove : function(component, event, helper) {
+        helper.approveRecord(component, event, helper, 'Approve');
+    },
+
+    recordReject : function(component, event, helper) {
+        helper.approveRecord(component, event, helper, 'Reject');
+    },
+
     saveRecord : function(component, event, helper) {
         const promotion = component.get("v.promotion");
         
@@ -70,8 +136,15 @@
         helper.deleteAgreementsListItem(component, event, helper, lineItems[index].Id);
     },
     
+    sendForApproval : function(component, event, helper) {
+        helper.submitForApproval(component, event, helper);
+    },
+
     launchRecap : function(component, event, helper) {
         const record = component.get("v.tmaRecord");
-        location.href = '/apex/GT_TMARecapForm_Two?id=' + record.Id;
+        // window.open('/apex/GT_TMARecapForm?id=' + record.Id, '_blank');
+        $A.get("e.force:navigateToURL").setParams({
+            "url":"/apex/GT_TMARecapForm?id=" + record.Id
+        }).fire();
     }
 })

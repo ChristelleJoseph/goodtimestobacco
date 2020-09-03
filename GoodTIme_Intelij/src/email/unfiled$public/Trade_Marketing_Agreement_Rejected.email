@@ -1,0 +1,11 @@
+Following record is rejected. Please click the following link to review why it was rejected. 
+
+{!Trade_Marketing_Agreement__c.Name} : {!Trade_Marketing_Agreement__c.Link}
+
+{!Trade_Marketing_Agreement__c.Approver_Notes__c}
+
+Note: For this Trade Marketing Agreement to be processed, you must submit it for approval again.
+
+
+Regards,
+{!User.Name}

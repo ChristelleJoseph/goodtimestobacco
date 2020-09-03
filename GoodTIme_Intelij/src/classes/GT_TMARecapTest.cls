@@ -1,99 +1,110 @@
-/**
- * Created by christellejoseph on 6/13/20.
- */
 @IsTest
 public with sharing class GT_TMARecapTest
 {
+
 	@IsTest
-	  public static void testShouldGetOrderFromAccountGivenAccountId()
+	public static void testBuildDataTableWithTMAInfo()
 	{
-		Account TestAcc = createAccountWithOrders();
+		Trade_Marketing_Agreement_Promotion__c tmaPromo = new Trade_Marketing_Agreement_Promotion__c(
+				Name = 'Promo',
+				Maximum_Allowance_Rate__c = 5
+		);
 
-		Test.startTest();
-		PageReference pageRef = page.GT_TMARecapForm;
-		pageRef.getParameters().put('id',TestAcc.Id);
-		Test.setCurrentPage(pageRef);
-		GT_TMARecapClass controller = new GT_TMARecapClass(new ApexPages.StandardController(TestAcc));
-		controller.getOrderItemsFromAccount();
+		insert tmaPromo;
 
-		List<OrderItem> orderItemsList = [
-				SELECT id, Brand__c, Item_Description__c, Quantity
-				FROM OrderItem
-		];
+		Product_Brand__c brand = new Product_Brand__c(
+				Name = 'Cool Brand',
+				Description__c = 'some description',
+				Trade_Marketing_Agreement_Promotion__c = tmaPromo.Id
+		);
 
-		system.assertEquals(2, orderItemsList.size());
-		Test.stopTest();
+		insert brand;
 
-	}
+		Account acc = New Account(
+				name = 'Account ',
+				Account__c  = '1234560'
 
-	public static Account createAccountWithOrders(){
-
-		Pricebook2 openPB = new Pricebook2(
-				Name = 'Open Stock Items',
-				Description = 'Price Book 2009 Products',
-				IsActive = true);
-
-		insert openPB;
-
-		Product_Brand__c prodBrandTest = new Product_Brand__c(
-				Name = 'Flat Wrap 2/79');
-
-		insert prodBrandTest;
-
-		Product2 prod1 = new Product2(
-				Name = 'Flat Wrap Product',
-				ProductCode = '101',
-				Item_Num__c = '444441',
-				Item_Status__c = '1',
-				Product_Brand__c = prodBrandTest.Id,
-				IsActive = true);
-
-		insert prod1;
-
-		Id pricebookId = Test.getStandardPricebookId();
-		PricebookEntry standardPrice = new PricebookEntry(
-				Pricebook2Id = pricebookId,
-				Product2Id = prod1.Id,
-				UnitPrice = 10000,
-				IsActive = true,
-				UseStandardPrice = false);
-
-		insert standardPrice;
-
-
-		PricebookEntry pbEntry1 = new PricebookEntry(
-				IsActive = true,
-				Pricebook2Id = openPB.Id,
-				Product2Id = prod1.Id,
-				UnitPrice = 9999,
-				UseStandardPrice=true);
-
-		insert pbEntry1;
-
-		Account acc = new Account();
-		acc.name= 'test';
-		acc.Account__c= '123456';
-		acc.OwnerId = UserInfo.getUserId();
+		);
 
 		insert acc;
 
-		Order orderTest = new Order(
-				AccountId = acc.Id,
-				Name = 'Order',
-				EffectiveDate = Date.today(),
-				Status = 'Draft',
-				Pricebook2Id = openPB.Id);
+		Trade_Marketing_Agreement__c tmAgreement = new Trade_Marketing_Agreement__c(
+				Name = 'tmAgreement',
+				Account__c = acc.Id,
+				Trade_Marketing_Agreement_Promotion__c = tmaPromo.Id,
+				Start_Date__c = date.today(),
+				End_Date__c = date.today() + 10
+		);
 
-		insert orderTest;
+		insert tmAgreement;
+
+		List<Trade_Marketing_Agreement_Line_Item__c> tmaList = new List<Trade_Marketing_Agreement_Line_Item__c>();
+
+		Trade_Marketing_Agreement_Line_Item__c tmaLineItem1 = new Trade_Marketing_Agreement_Line_Item__c(
+				Trade_Marketing_Agreement__c = tmAgreement.Id,
+				Product_Brand__c = brand.Id,
+				Allowance_Rate__c = 3,
+				Quantity__c = 40,
+				Discount__c = 120
+		);
+
+		tmaList.add(tmaLineItem1);
+
+		Trade_Marketing_Agreement_Line_Item__c tmaLineItem2 = new Trade_Marketing_Agreement_Line_Item__c(
+				Trade_Marketing_Agreement__c = tmAgreement.Id,
+				Product_Brand__c = brand.Id,
+				Allowance_Rate__c = 2,
+				Quantity__c = 20,
+				Discount__c = 40
+		);
+
+		tmaList.add(tmaLineItem2);
+
+		Trade_Marketing_Agreement_Line_Item__c tmaLineItem3 = new Trade_Marketing_Agreement_Line_Item__c(
+				Trade_Marketing_Agreement__c = tmAgreement.Id,
+				Product_Brand__c = brand.Id,
+				Allowance_Rate__c = 3,
+				Quantity__c = 0,
+				Discount__c = 0
+		);
+
+		tmaList.add(tmaLineItem3);
+
+		insert tmaList;
+
+		Test.startTest();
+		PageReference pageRef = page.GT_TMARecapForm;
+		pageRef.getParameters().put('id',tmAgreement.Id);
+		Test.setCurrentPage(pageRef);
+		GT_TMARecapClass controller = new GT_TMARecapClass(new ApexPages.StandardController(tmAgreement));
+		controller.displayTMARecapFormDataTable();
+
+		List<Trade_Marketing_Agreement_Line_Item__c> data = [
+				SELECT Id, Product_Brand__r.Name, Product_Brand__r.Description__c, Allowance_Rate__c, Quantity__c,
+						Discount__c, Trade_Marketing_Agreement__r.Start_Date__c,
+						Trade_Marketing_Agreement__r.End_Date__c
+				From Trade_Marketing_Agreement_Line_Item__c
+		];
+
+		system.assertEquals(3, data.size());
+		System.assertEquals(160.00, controller.totalDiscount);
+
+		controller.tmaWrapList.get(2).quantity = 90;
+
+		controller.save();
 
 
-		OrderItem orderItemTest = new OrderItem(
-				OrderId = orderTest.Id,
-				Quantity = 20,
-				PricebookEntryId = pbEntry1.Id);
+		List<Trade_Marketing_Agreement_Line_Item__c> data2 = [
+				SELECT Id, Product_Brand__r.Name, Product_Brand__r.Description__c, Allowance_Rate__c, Quantity__c,
+						Discount__c, Trade_Marketing_Agreement__r.Start_Date__c,
+						Trade_Marketing_Agreement__r.End_Date__c
+				From Trade_Marketing_Agreement_Line_Item__c
+		];
 
-		insert orderItemTest;
-		return acc;
+
+		System.assertEquals(430.00, controller.totalDiscount);
+		Test.stopTest();
+
 	}
 
 }

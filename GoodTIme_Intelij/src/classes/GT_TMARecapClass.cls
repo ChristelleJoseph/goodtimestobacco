@@ -1,89 +1,70 @@
-public without sharing class GT_TMARecapClass {
-	private final Account acct;
+public with sharing class GT_TMARecapClass {
+	private final Trade_Marketing_Agreement__c tmAgreement;
 	public  Date startDate{get;set;}
 	public  Date endDate{get;set;}
-	public String accountId {get; set;}
+	public String tmaId {get; set;}
 	public Decimal totalDiscount {get; set;}
-	public boolean showResults {get; set;}
-	public boolean noResultsFoundMessage {get; set;}
-
-	public List<OrderItem> orderItems {get; set;}
+	public boolean timer {get; set;}
+	public List<Trade_Marketing_Agreement__c> tmaDates {get; set;}
 	public List<Trade_Marketing_Agreement_Line_Item__c> tmaLineItems {get; set;}
 	public List<TMAWrapperClassObject> tmaWrapList{get; set;}
 
 
 	public GT_TMARecapClass(ApexPages.StandardController stdController) {
-		this.acct = (Account)stdController.getRecord();
+		this.tmAgreement = (Trade_Marketing_Agreement__c)stdController.getRecord();
 	}
 
-	public void DisplayTMARecapFormDataTable(){
-
-		showResults = false;
-		noResultsFoundMessage = false;
-		getOrderItemsFromAccount();
+	public void displayTMARecapFormDataTable(){
 		getTMADiscountAndAllowanceRate();
-		BuildTMARecapFormWithRequiredInformation();
+		buildTMARecapFormWithRequiredInformation();
 		calculateTotalDiscount();
 	}
 
-	public void getOrderItemsFromAccount(){
-		accountId = ApexPages.currentPage().getParameters().get('id');
-		orderItems = [
-				SELECT id, Brand__c, Item_Description__c, Quantity
-				FROM OrderItem
-				WHERE Order.AccountId = :accountId
+	@TestVisible
+	private void getTMADiscountAndAllowanceRate(){
+		tmaId = ApexPages.currentPage().getParameters().get('id');
+
+		tmaLineItems = [
+				SELECT Id, Product_Brand__r.Name, Product_Brand__r.Description__c, Allowance_Rate__c, Quantity__c,
+						Discount__c, Trade_Marketing_Agreement__r.Start_Date__c,
+						Trade_Marketing_Agreement__r.End_Date__c
+				From Trade_Marketing_Agreement_Line_Item__c
+				WHERE Trade_Marketing_Agreement__c =:tmaId
+
 		];
 	}
 
-	private void getTMADiscountAndAllowanceRate(){
-		accountId = ApexPages.currentPage().getParameters().get('id');
+	@TestVisible
+	private void buildTMARecapFormWithRequiredInformation(){
 
-		if (startDate > endDate) {
-			tmaLineItems = new List<Trade_Marketing_Agreement_Line_Item__c>();
-			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'Please fill out all mandatory fields!'));
-		}
+		tmaDates = [Select Start_Date__c, End_Date__c FROM Trade_Marketing_Agreement__c Where Id = :tmaId ];
+		startDate = tmaDates[0].Start_Date__c;
+		endDate = tmaDates[0].End_Date__c;
 
-		if(startDate != null && endDate != null && startDate <= endDate){
-			tmaLineItems = [
-					SELECT Allowance_Rate__c, Trade_Marketing_Agreement__r.Total_Discount__c
-					FROM Trade_Marketing_Agreement_Line_Item__c
-					WHERE Trade_Marketing_Agreement__r.Account__c =:accountId
-					AND Trade_Marketing_Agreement__r.Start_Date__c =:startDate
-					AND Trade_Marketing_Agreement__r.End_Date__c =:endDate
-			];
-		}
-		if (tmaLineItems.size()> 0){
-			showResults = true;
-		}else{
-			showResults = false;
-			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'No record found.'));
+		tmaWrapList = new List<TMAWrapperClassObject>();
 
-		}
-	}
-
-
-	private void BuildTMARecapFormWithRequiredInformation(){
-
-			tmaWrapList = new List<TMAWrapperClassObject>();
-			Decimal discount = 0;
-			for(OrderItem order: orderItems)
-			{
-				for (Trade_Marketing_Agreement_Line_Item__c tmaLineItem : tmaLineItems)
-				{
-					discount = (order.Quantity * tmaLineItem.Allowance_Rate__c).setScale(2);
-
-					tmaWrapList.add(new TMAWrapperClassObject
-					(
-							order.Brand__c,
-							order.Item_Description__c,
-							order.Quantity,
-							discount,
-							tmaLineItem.Allowance_Rate__c)
-			);
-				}
+		for(Trade_Marketing_Agreement_Line_Item__c tmaLineItem: tmaLineItems){
+			if ( tmaLineItem.Discount__c == null){
+				tmaLineItem.Discount__c = 0;
 			}
+			if ( tmaLineItem.Quantity__c == null){
+				tmaLineItem.Quantity__c = 0;
+			}
+			tmaWrapList.add(new TMAWrapperClassObject
+					(
+							tmaLineItem.Id,
+							tmaLineItem.Product_Brand__r.Name,
+							tmaLineItem.Product_Brand__r.Description__c,
+							tmaLineItem.Quantity__c,
+							tmaLineItem.Discount__c,
+							tmaLineItem.Allowance_Rate__c
+					)
+			);
+
+		}
 	}
 
+	@TestVisible
 	private void calculateTotalDiscount(){
 		totalDiscount = 0;
 		for(TMAWrapperClassObject TMAWrapperObject: tmaWrapList){
@@ -91,14 +72,60 @@ public without sharing class GT_TMARecapClass {
 		}
 	}
 
+	public void save(){
+		List<Trade_Marketing_Agreement_Line_Item__c> updateTmaLineItemList = new List<Trade_Marketing_Agreement_Line_Item__c>();
+		for( TMAWrapperClassObject tm: tmaWrapList ){
+			if (tm.quantity != null){
+				tm.discount = (tm.quantity * tm.allowanceRate).setScale(2);
+			}
+			calculateTotalDiscount();
+
+			if (tm.quantity != null){
+				Trade_Marketing_Agreement_Line_Item__c updateTmaLineItem =
+						new Trade_Marketing_Agreement_Line_Item__c(
+								Id = tm.Id,
+								Quantity__c	 = tm.quantity,
+								Discount__c = tm.discount
+						);
+				updateTmaLineItemList.add(updateTmaLineItem);
+			}
+		}
+
+		try{
+			update updateTmaLineItemList;
+			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.CONFIRM,'Records Saved successfully!'));
+
+
+		}catch(DmlException e)
+		{
+			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'Please enter Valid Data'));
+		}
+
+		timerOn();
+	}
+
+	public void clearMessage(){
+		ApexPages.getMessages().clear();
+	}
+
+	public void timerOn(){
+		timer = true;
+	}
+
+	public void timerOff(){
+		timer = false;
+	}
+
 	public class TMAWrapperClassObject{
+		public String Id {get; set;}
 		public String brand {get; set;}
 		public String brandDescription {get; set;}
 		public Decimal quantity {get; set;}
 		public Decimal discount {get; set;}
 		public Decimal allowanceRate {get; set;}
 
-		public TMAWrapperClassObject(String brand,String brandDescription, Decimal quantity, Decimal discount, Decimal allowanceRate ){
+		public TMAWrapperClassObject(String Id, String brand,String brandDescription, Decimal quantity, Decimal discount, Decimal allowanceRate ){
+			this.Id = Id;
 			this.brand = brand;
 			this.brandDescription = brandDescription;
 			this.quantity = quantity;
