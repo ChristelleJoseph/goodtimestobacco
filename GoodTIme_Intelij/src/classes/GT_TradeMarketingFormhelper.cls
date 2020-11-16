@@ -5,6 +5,17 @@
  */
 public class GT_TradeMarketingFormhelper {
 
+    public static TRADE_MARKETING_AGREEMENT__C getTMARecord(Id recordId){
+
+        return [SELECT Id, Name, Account__c, Account__r.Name, Account__r.Email__c, Approver_Notes__c,  Start_Date__c, End_Date__c, Status__c, Total_Discount__c, Trade_Marketing_Agreement_Promotion__c,
+        Trade_Marketing_Agreement_Promotion__r.Name, CreatedBy.Name, (SELECT Id, Allowance_Rate__c, Maximum_Allowance_Rate__c, Product_Brand__c,
+        Product_Brand__r.Name, Product_Brand__r.Description__c FROM Trade_Marketing_Agreement_Line_Items__r ORDER BY CreatedDate)
+                FROM Trade_Marketing_Agreement__c
+                WHERE Id = :recordId].get(0);
+
+    }
+
+
     public static BaseResponse getBaseData(String strRecordId) {
         BaseResponse response = new BaseResponse();
 
@@ -14,15 +25,12 @@ public class GT_TradeMarketingFormhelper {
 
             switch on strObjectType {
                 when 'ACCOUNT' {
-                    response.tradeMarketingAgreement = new Trade_Marketing_Agreement__c(Account__c = recordId, Status__c = 'New');
-                    insert response.tradeMarketingAgreement;
+                    Trade_Marketing_Agreement__c tmaRecord = new Trade_Marketing_Agreement__c(Account__c = recordId, Status__c = 'New');
+                    insert tmaRecord;
+                    response.tradeMarketingAgreement = getTMARecord(tmaRecord.Id);
                 }
                 when 'TRADE_MARKETING_AGREEMENT__C' {
-                    response.tradeMarketingAgreement = [SELECT Id, Name, Account__c, Account__r.Name, Account__r.Email__c, Approver_Notes__c,  Start_Date__c, End_Date__c, Status__c, Total_Discount__c, Trade_Marketing_Agreement_Promotion__c,
-                                                       		   Trade_Marketing_Agreement_Promotion__r.Name, CreatedBy.Name, (SELECT Id, Allowance_Rate__c, Maximum_Allowance_Rate__c, Product_Brand__c,
-                                                               Product_Brand__r.Name, Product_Brand__r.Description__c FROM Trade_Marketing_Agreement_Line_Items__r ORDER BY CreatedDate)
-                                                        FROM Trade_Marketing_Agreement__c
-                                                        WHERE Id =: recordId].get(0);
+                    response.tradeMarketingAgreement = getTMARecord(recordId);
 
                     List<ProcessInstanceWorkitem> approvalInstanceList = [SELECT Id, OriginalActorId, Actor.Name FROM ProcessInstanceWorkitem
                                                                       WHERE ProcessInstance.Status = 'Pending' AND ProcessInstance.TargetObjectId =: strRecordId LIMIT 1];
@@ -40,6 +48,8 @@ public class GT_TradeMarketingFormhelper {
 
         return response;
     }
+
+
 
     public static ResponseBase approveRecord(String strRecordId, String strApprovalType, String strApproverComment) {
         ResponseBase response = new ResponseBase();

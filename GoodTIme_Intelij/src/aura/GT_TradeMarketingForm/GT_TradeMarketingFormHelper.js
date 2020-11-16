@@ -26,7 +26,8 @@
 	getBaseData : function(component, event, helper) {
 		let action = component.get("c.getBaseData");
         const recordId = component.get("v.recordId");
-        
+        console.log('testing line 29 recordId', recordId);
+        console.log('component.get("v.pageReference").state', JSON.stringify(component.get("v.pageReference").state));
         action.setParams({
             strRecordId : recordId
         });
@@ -36,8 +37,11 @@
             
             if(state === "SUCCESS") {
                 let data = response.getReturnValue();
-                
+
+                console.log('testing line 39 data', data);
+
                 if(data.isSuccess == true) {
+                    console.log('testing line 43 recordId', recordId);
                     if(recordId.startsWith("001")) {
                         let navService = component.find("navService");
                         let pageReference = {
@@ -49,7 +53,7 @@
                                 "c__id": data.tradeMarketingAgreement.Id
                             }
                         };
-                        
+
                         navService.navigate(pageReference);
                     }
                     
