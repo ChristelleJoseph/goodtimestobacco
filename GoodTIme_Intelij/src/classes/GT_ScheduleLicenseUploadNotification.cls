@@ -3,6 +3,7 @@ global class GT_ScheduleLicenseUploadNotification implements schedulable
 {
 	global void execute(SchedulableContext sc)
 	{
-		database.executebatch(new GT_SendLicenseUploadReminder());
+		GT_SendLicenseUploadReminder bc = new GT_SendLicenseUploadReminder();
+		Database.executeBatch(bc);
 	}
 }

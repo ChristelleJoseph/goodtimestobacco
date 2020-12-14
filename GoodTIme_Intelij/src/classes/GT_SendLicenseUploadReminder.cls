@@ -7,52 +7,103 @@ global class GT_SendLicenseUploadReminder implements Database.Batchable<ContentD
 	}
 	global Iterable<ContentDocumentLink> start(Database.BatchableContext bc)
 	{
-		System.debug('start');
 		return new CustomIterable();
 
 	}
 
 	public void execute(Database.BatchableContext bc, List<ContentDocumentLink> scope)
 	{
-		System.debug('in execute');
-		Messaging.reserveSingleEmailCapacity(2);
-		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+		List<Messaging.SingleEmailMessage> lstEmail = new List<Messaging.SingleEmailMessage>();
+		List<FeedItem> postFeed = new List<FeedItem>();
 
-		Environment_Variable__mdt approverEmail = [SELECT Email__c FROM Environment_Variable__mdt WHERE DeveloperName = 'TMAApprover' ];
+		Messaging.reserveSingleEmailCapacity(2);
+		Messaging.SingleEmailMessage mail;
+
+		Environment_Variable__mdt approverEmail = [SELECT Email__c FROM Environment_Variable__mdt WHERE DeveloperName = 'licenseApprover' ];
+
+		System.debug('approverEmail' + approverEmail);
+
+		List<User> users = [SELECT id, email From User where email =:String.valueOf(approverEmail.Email__c)];
+		Id approverUserId;
+
+		System.debug('users ' + users);
+
+		if(users.size() == 1){
+			System.debug('size' + users.size() );
+			for(User u: users){
+				approverUserId = u.Id;
+			}
+
+			System.debug('approverUserId ' + approverUserId);
+		}
 
 		String [] toAddresses = new String[] {String.valueOf(approverEmail.Email__c)};
 
 		Map<Id, Id> accountByUser = new Map<Id, Id>();
 
+		Set<Id> accountIds = new Set<Id>();
+
 		for (ContentDocumentLink cdl: scope)
 		{
 			accountByUser.put(cdl.LinkedEntityId, cdl.ContentDocument.OwnerId);
+			accountIds.add( cdl.LinkedEntityId );
 		}
 
-		Integer MultipleOfThreeCheck;
-		for ( List<Account> accounts : [ SELECT Id, Name, Account__c, License_Updated__c ,(SELECT Id, ContentDocument.Title FROM ContentDocumentLinks LIMIT 1 ) FROM Account WHERE Id IN :accountByUser.keyset()]) {
-			for ( Account a : accounts ) {
+		List<Account> acc = [ SELECT Id, Name, Account__c, License_Updated__c ,(SELECT Id, ContentDocument.Title FROM ContentDocumentLinks WHERE  ContentDocument.Title LIKE 'License%') FROM Account WHERE Id IN :accountIds];//WHERE  ContentDocument.Title LIKE 'License%'
+		System.debug('acc' + acc);
+
+			Integer MultipleOfThreeCheck;
+			for ( Account a : acc ) {
 				for( ContentDocumentLink c: a.ContentDocumentLinks){
-					if(!a.Account__c.startsWithIgnoreCase('GT')){
+					if(!a.Account__c.startsWithIgnoreCase('GT') && a.License_Updated__c.day() != date.today().day()){
 						MultipleOfThreeCheck =  Date.today().day() - a.License_Updated__c.day();
-						System.debug('MultipleOfThreeCheck ' + MultipleOfThreeCheck);
 						if(math.mod(MultipleOfThreeCheck,3) == 0){
-							System.debug('in if statement');
+							System.debug('true');
 							toAddresses.add(accountByUser.get(a.Id));
+							mail = new Messaging.SingleEmailMessage();
 							mail.setToAddresses(toAddresses);
-							mail.setSubject('License Approval Reminder');
+							mail.setSubject('License Approval Reminder On ' + a.Name + ' Account');
 							mail.setPlainTextBody('The following license has been uploaded for your approval.\n '+
 									'Please complete the approval in Great Plains.\n' +
 									'\n'+
 									'File Name: ' + c.ContentDocument.Title + '\n'+
 									'Account: https://goodtimestobacco12345--roidev1.lightning.force.com/lightning/r/Account/'+a.Id+'/view');
-							Messaging.sendEmail(new Messaging.SingleEmailMessage[] {mail});
+
+
+							if(approverUserId !=null)
+							{
+								System.debug('not null');
+								FeedItem PostApprover = new FeedItem(
+										ParentId = approverUserId,
+										Body = 'The following license has been uploaded for your approval.\n ' +
+												'Please complete the approval in Great Plains.\n' +
+												'\n' +
+												'File Name: ' + c.ContentDocument.Title + '\n' +
+												'Account: https://goodtimestobacco12345--roidev1.lightning.force.com/lightning/r/Account/' + a.Id + '/view'
+								);
+								postFeed.add(PostApprover);
+							}
+
+							FeedItem PostASM = new FeedItem(
+									ParentId = accountByUser.get(a.Id),
+									Body = 'The following license has been uploaded for your approval.\n '+
+											'Please complete the approval in Great Plains.\n' +
+											'\n'+
+											'File Name: ' + c.ContentDocument.Title + '\n'+
+											'Account: https://goodtimestobacco12345--roidev1.lightning.force.com/lightning/r/Account/'+a.Id+'/view'
+							);
+
+							postFeed.add(PostASM);
+							lstEmail.add(mail);
+
 						}
 					}
 				}
 
 			}
-		}
+
+		Messaging.sendEmail(lstEmail);
+		insert postFeed;
 
 	}
 
