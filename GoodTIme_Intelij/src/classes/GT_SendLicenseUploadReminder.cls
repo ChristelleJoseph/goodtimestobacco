@@ -49,7 +49,7 @@ global class GT_SendLicenseUploadReminder implements Database.Batchable<ContentD
 			accountIds.add( cdl.LinkedEntityId );
 		}
 
-		List<Account> acc = [ SELECT Id, Name, Account__c, License_Updated__c ,(SELECT Id, ContentDocument.Title FROM ContentDocumentLinks WHERE  ContentDocument.Title LIKE 'License%') FROM Account WHERE Id IN :accountIds];//WHERE  ContentDocument.Title LIKE 'License%'
+		List<Account> acc = [ SELECT Id, Name, Account__c, License_Updated__c ,(SELECT Id, ContentDocument.Title FROM ContentDocumentLinks WHERE  ContentDocument.Title LIKE 'License%' ORDER BY ContentDocument.ContentModifiedDate DESC) FROM Account WHERE Id IN :accountIds];//WHERE  ContentDocument.Title LIKE 'License%'
 		System.debug('acc' + acc);
 
 			Integer MultipleOfThreeCheck;
